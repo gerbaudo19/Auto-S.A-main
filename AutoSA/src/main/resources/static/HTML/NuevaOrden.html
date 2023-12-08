@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--CSS-->
     <link rel="stylesheet" href="../CSS/index.css">
+    <link rel="stylesheet" href="../CSS/NuevaOrdenDeTrabajo.css">
     <!--BootStrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -51,7 +52,7 @@
             <form id="OrdenNueva">
                 <div class="card my-3">
                     <div class="card-body">
-                        <div class="mb-3" style="text-align: center;">
+                        <div class="mb-3 card-title">
                             <h2>Nueva orden de trabajo</h2>
                         </div>
 
@@ -71,17 +72,60 @@
                         <div class="card mb-3" id="cliente-container">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="card-title">
                                         <h5>Cliente</h5>
-                                    </div>
-                                    <div class="col">
-                                        <div class="d-flex align-items-center">
-                                            <h5 class="mr-2">Cargar Cliente</h5>
-                                            <button style="margin-left: 15px;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCliente" onclick="llenarSelectCliente()">+</button>
-                                        </div>
                                     </div>
                                 </div>
 
+                                <div class="mb-3 row">
+                                    <div class="col-2">
+                                        <form class="d-flex" role="search" id="formBusqueda">
+                                            <button  class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalCliente" id="btn-BuscarCliente">Buscar</button>
+                                        </form>
+                                    </div>
+                                    <div class="col-8">
+                                      <form class="d-flex" role="search" id="formBusqueda">
+                                        <input class="form-control me-2" id="input-ClienteBuscar" type="search" placeholder="Ingrese el dato" aria-label="Search" disabled>
+                                      </form>
+                                  </div>
+                                    <div class="col-2">
+                                      <select class="form-select" aria-label="Default select example" id="select-FiltrarCliente">
+                                          <option selected value="0">Filtrar</option>
+                                          <option value="1">Dni</option>
+                                          <option value="2">Nombre</option>
+                                      </select>
+                                  </div>
+                                </div>
+                                <!-- Modal Cliente -->
+                                <div class="modal fade" id="modalCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Clientes</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <table class="table" id="tablaCliente">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Dni</th>
+                                                            <th scope="col">Nombre</th>
+                                                            <th scope="col">Apellido</th>
+                                                            <th scope="col"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
                                 <div class="mb-3">
                                     <label for="dniCliente" class="form-label">DNI</label>
                                     <input type="number" class="form-control" id="input-ClienteDni" placeholder="documento">
@@ -117,35 +161,10 @@
                                     <input type="file" class="form-control" id="emailCliente" placeholder="imagen">
                                 </div>
 
-                                <!-- Modal Cliente -->
-                                <div class="modal fade" id="modalCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Cargar nuevo cliente</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <select class="form-select" id="modal-select-ClienteDni" aria-label="Default select example">
-                                                <option selected>Seleccione un DNI</option>
-                                            </select>
-            
-                                            <div class="mb-3">
-                                                <label for="nombreCliente" class="form-label">Nombre</label>
-                                                <input type="text" class="form-control" id="modal-input-ClienteNombre" placeholder="nombre">
-                                            </div>
-            
-                                            <div class="mb-3">
-                                                <label for="apellidoCliente" class="form-label">Apellido</label>
-                                                <input type="text" class="form-control" id="modal-input-ClienteApellido" placeholder="apellido">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="loadCliente()">Confirmar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
+                                <div class="mb-3">
+                                    <form class="d-flex" role="search" id="formBusqueda">
+                                        <button class="btn btn-outline-primary" type="button" id="btn-ClienteBorrarDatos">limpiar</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -153,111 +172,110 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="card-title">
                                         <h5>Vehiculo</h5>
                                     </div>
-                                    <div class="col">
-                                        <div class="d-flex align-items-center">
-                                            <h5>Buscar Vehiculo</h5>
-                                            <button style="margin-left: 15px;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalVehiculo">+</button>
-                                        </div>
+                                </div>
+                                <!-- Cargar vehiculo -->
+
+                                <div class="mb-3 row">
+                                    <div class="col-10">
+                                        <form class="d-flex" role="search" id="formBusqueda">
+                                            <select class="form-select" aria-label="Default select example" id="select-BuscarVehiculo" disabled></select>
+                                        </form>
+                                    </div>
+                                    <div class="col-2">
+                                      <form class="d-flex" role="search" id="formBusqueda">
+                                        <button class="btn btn-outline-primary" type="button" id="btn-CargarVehiculo">Cargar</button>
+                                    </form>
                                     </div>
                                 </div>
-
                                 <div class="mb-3">
                                     <label for="dominioVehiculo" class="form-label">Patente</label>
                                     <input type="text" class="form-control" id="input-VehiculoPatente" placeholder="patente">
                                 </div>
 
                                 <!-- Marca -->
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <div class="mb-3">
-                                            <div class="mb-3">
-                                                <h5>Marca</h5>
+                                <div class="mb-3">
+                                    <div class="mb-3">
+                                        <label for="">Marca</label>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <select class="form-select" id="select-VehiculoMarca" aria-label="Default select example">
+                                                    <option selected>Seleccione una marca</option>
+                                                </select>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-10">
-                                                    <select class="form-select" id="select-VehiculoMarca" aria-label="Default select example" onchange="getModelo()">
-                                                        <option selected>Seleccione una marca</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-2">
-                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMarca">+</button>
-                                                </div>
-                                            </div> 
-                                        </div>
+                                            <div class="col-2">
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMarca">+</button>
+                                            </div>
+                                        </div> 
+                                    </div>
 
 
-                                        <!-- Modal Marca -->
-                                        <div class="modal fade" id="modalMarca" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Crear nueva Marca</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="mb-3">
-                                                        <label for="nombreMarca" class="form-label">Nombre</label>
-                                                        <input type="text" class="form-control" id="nombreMarca" placeholder="nombre">
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="crearMarca()">Confirmar</button>
+                                    <!-- Modal Marca -->
+                                    <div class="modal fade" id="modalMarca" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Crear nueva Marca</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="nombreMarca" class="form-label">Nombre</label>
+                                                    <input type="text" class="form-control" id="nombreMarca" placeholder="nombre">
                                                 </div>
                                             </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="crearMarca()">Confirmar</button>
                                             </div>
                                         </div>
-
+                                        </div>
                                     </div>
                                 </div>
 
                                 <!-- Modelo -->
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        
-                                        <div class="mb-3">
-                                            <h5>Modelo</h5>
+                                <div class="mb-3">
+                                    <div class="mb-3">
+                                        <label for="">Modelo</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-10">                                            
+                                            <select class="form-select" id="select-VehiculoModelo" aria-label="Default select example" disabled>
+                                                <option selected>Seleccione un modelo</option>
+                                            </select>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-10">                                            
-                                                <select class="form-select" id="select-VehiculoModelo" aria-label="Default select example" disabled>
-                                                    <option selected>Seleccione un modelo</option>
-                                                </select>
-                                            </div>
+                                        <div class="col-2">
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaleModelo">+</button>
+                                        </div>
+                                    </div>
 
-                                            <div class="col-2">
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaleModelo">+</button>
+                                    
+                                    <!-- Modal Modelo -->
+                                    <div class="modal fade" id="modaleModelo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="modelModeloLabel">Crear nuevo Modelo</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="nombreModelo" class="form-label">Nombre</label>
+                                                    <input type="text" class="form-control" id="nombreModelo" placeholder="nombre">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="crearModelo()">Confirmar</button>
                                             </div>
                                         </div>
-
-                                        
-                                        <!-- Modal Modelo -->
-                                        <div class="modal fade" id="modaleModelo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="modelModeloLabel">Crear nuevo Modelo</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="mb-3">
-                                                        <label for="nombreModelo" class="form-label">Nombre</label>
-                                                        <input type="text" class="form-control" id="nombreModelo" placeholder="nombre">
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="crearModelo()">Confirmar</button>
-                                                </div>
-                                            </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="mb-3">
                                     <label for="VehiculoAño" class="form-label">Año</label>
                                     <input type="number" class="form-control" id="input-VehiculoAño" placeholder="año">
@@ -267,6 +285,12 @@
                                     <label for="VehiculoKilometraje" class="form-label">Kilometraje</label>
                                     <input type="number" class="form-control" id="input-VehiculoKilometraje" placeholder="kilometraje">
                                 </div>
+
+                                <div class="mb-3">
+                                    <form class="d-flex" role="search" id="formBusqueda">
+                                      <button class="btn btn-outline-primary" type="button" id="btn-VehiculoBorrarDatos">limpiar</button>
+                                  </form>
+                                </div>
                             </div>
                         </div>
 
@@ -274,12 +298,71 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="mb-3">
-                                    <div class="mb-3">
+                                    <div class="mb-3 card-title">
                                         <h5>Tecnico</h5>
                                     </div>
-                                    <div class="form-check" id="checkbox-Tecnico">
-                                        
+                                    <div class="mb-3 row">
+                                        <div class="col">
+                                            <form class="d-flex" role="search" id="formBusqueda">
+                                                <button  class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalTecnico" id="btn-BuscarTecnico">Buscar</button>                                           
+                                            </form>
+                                        </div>
+                                        <div class="col-9">
+                                          <form class="d-flex" role="search" id="formBusqueda">
+                                              <input class="form-control me-2" id="input-TablaTecnico" type="search" placeholder="Ingrese el dato" aria-label="Search" disabled>
+                                          </form>
+                                      </div>
+                                        <div class="col">
+                                          <select class="form-select" aria-label="Default select example" id="select-FlitrarTecnico">
+                                              <option selected value="0">Filtrar</option>
+                                              <option value="1">legajo</option>
+                                              <option value="2">Nombre</option>
+                                          </select>
+                                      </div>
                                     </div>
+                                <!-- Modal Tecnico -->
+                                <div class="modal fade" id="modalTecnico" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Tecnicos</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <table class="table" id="tablaTecnicoBuscar">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Legajo</th>
+                                                            <th scope="col">Nombre</th>
+                                                            <th scope="col">Apellido</th>
+                                                            <th scope="col"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <!-- Tabla para cargar Tecnico -->
+                                <table class="table" id="tablaTecnico">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Legajo</th>
+                                            <th scope="col">Apellido</th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                                 </div>
                             </div>
                         </div>
@@ -288,17 +371,65 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="mb-3">
-                                    <div class="mb-3">
+                                    <div class="mb-3 card-title" >
                                         <h5>Servicios</h5>
                                     </div>
-                                    <div class="form-check" id="checkbox-Servicios">
-                                        
+                                    <div class="row">
+                                        <div class="col-11">                                            
+                                            <select class="form-select" id="select-Servicio" aria-label="Default select example">
+                                                <option selected>Seleccione un Servicio</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-1">
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalServicio">+</button>
+                                        </div>
                                     </div>
-                                    <!--
-                                    <select class="form-select" id="select-Servicio" aria-label="Default select example">
-                                        <option selected>Seleccione los Servicios</option>
-                                    </select>
-                                    -->
+                                    <!-- Modal Servicio -->
+                                    <div class="modal fade" id="modalServicio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="modelModeloLabel">Crear nuevo Servicio</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="nombreEditarServicio" class="form-label">Nombre</label>
+                                                    <input type="text" class="form-control" id="input-NombreEditarServicio" placeholder="nombre">
+                                                </div>
+                      
+                                                <div class="card mb-3">
+                                                  <div class="card-body">
+                                                    <div class="mb-3">
+                                                        <div class="mb-3">
+                                                          <label>Descripcion</label>
+                                                        </div> 
+                                                        <div class="form-floating">
+                                                          <textarea class="form-control" placeholder="Leave a comment here"  style="height: 100%" id="input-DescripcionEditarServicio"></textarea>
+                                                        </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="crearModelo()">Confirmar</button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <table class="table" id="tablaServicios">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Id</th>
+                                                <th scope="col">Nombre</th>
+                                                <th scope="col">Descripcion</th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -307,25 +438,28 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="mb-3">
-                                    <div class="mb-3">
+                                    <div class="mb-3 card-title">
                                         <h5>Observaciones</h5>
-                                    </div> 
+                                    </div>
                                     <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                                    <textarea class="form-control" placeholder="Leave a comment here" id="textarea-observacion" style="height: 100px"></textarea>
                                     <label for="floatingTextarea2">observaciones</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="btn-SetOrdenDeTrabajo">Confirmar</button>
+                        <button type="button" class="btn btn-primary" id="btn-SetOrdenDeTrabajo">Confirmar</button>
                     </div>
                 </div>
             </form>
         </div>
     </main>
    
-    
-    <script src="../JS/OrdenDeTrabajo/NuevaOrden.js"></script>
+    <script type="module" src="../JS/OrdenDeTrabajo/NuevaOrdenTrabajo.js"></script>
+    <script type="module" src="../JS/OrdenDeTrabajo/OrdenCliente.js"></script>
+    <script type="module" src="../JS/OrdenDeTrabajo/OrdenVehiculo.js"></script>
+    <script type="module" src="../JS/OrdenDeTrabajo/OrdenTecnico.js"></script>
+    <script type="module" src="../JS/OrdenDeTrabajo/OrdenServicio.js"></script>
 </body>
 </html>

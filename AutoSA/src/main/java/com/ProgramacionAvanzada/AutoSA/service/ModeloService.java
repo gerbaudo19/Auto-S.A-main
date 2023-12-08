@@ -42,6 +42,10 @@ public class ModeloService {
         return modeloRepository.existsById(id);
     }
 
+    public boolean existsByNombre(String nombre){
+        return modeloRepository.existsByNombre(nombre);
+    }
+
     public void save(Modelo modelo){
         modeloRepository.save(modelo);
     }

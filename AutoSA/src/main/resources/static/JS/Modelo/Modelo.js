@@ -1,4 +1,9 @@
 const url = "http://localhost:8080/modelo"; 
+//Variables -
+const btnBuscar = document.getElementById("btn-buscar");  //Contiene el boton buscar
+const selectFiltrar = document.getElementById("selectFiltrar"); //contiene el select de filtrar
+const selectTablaMarca = document.getElementById("select-TablaMarca"); //Contiene el select arriba de la tabla
+
 // ----------------------------------------------------------------------------
 // formatearTexto -------------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -17,15 +22,16 @@ function formatearString(textoEntrada) {
 }
 
 // ----------------------------------------------------------------------------
-// Llenar Tablas con for ------------------------------------------------------
+// Llenar Tablas --------------------------------------------------------------
 // ----------------------------------------------------------------------------
-async function llenarTablaFor(data){
+// con for --------------------------------------------------------------------
+async function llenarTablaFor(dataModelo){
 
     const tabla = document.getElementById('tablaModelo');
     const tbody = tabla.querySelector('tbody');
     tbody.innerHTML = '';
 
-    data.forEach(function (modelo) {
+    dataModelo.forEach(function (modelo) {
         const fila = document.createElement('tr');
         const columnaId = document.createElement('td');
         const columnaNombre = document.createElement('td');
@@ -87,6 +93,7 @@ async function getModelos() {
         }
         const dataModelos = await response.json(); //Obtiene la respuesta y la almacena en una variable
         llenarTablaFor(dataModelos); //Llama a la funcion para llenar la tabla
+
     } catch (error) { //Captura y muestra error por consola
         console.error('Error al cargar las marcas:', error); 
     }
@@ -111,21 +118,22 @@ async function getModelosXMarca() {
 
 //Leer opcion de filtrado y buscar -----------------------------------------------
 
-const btnBuscar = document.getElementById("btn-buscar");  //Contiene el boton buscar
-const selectFiltrar = document.getElementById("selectFiltrar"); //contiene el select de filtrar
-const selectTablaMarca = document.getElementById("select-TablaMarca"); //Contiene el select arriba de la tabla
+//Listar marcas 
+async function listarMarcas(){
+    const response = await fetch("http://localhost:8080/marca/list"); // Realiza una petición fetch
+    if (!response.ok) { //Si la peticion tubo un error entonces
+        throw new Error("Error en la petición");  //Muestra el mensaje en consola
+    }
+    const dataMarcas = await response.json(); //Guarda los datos de la peticion en una varible
+    return dataMarcas;
+}
 
 //Carga el select si se selecciono un filtrado -----
 selectFiltrar.addEventListener("change", async () => {
-
     if (selectFiltrar.value === "1") {
         selectTablaMarca.disabled = false; // Activa el Select
         try {
-            const response = await fetch("http://localhost:8080/marca/list"); // Realiza una petición fetch
-            if (!response.ok) { //Si la peticion tubo un error entonces
-                throw new Error("Error en la petición");  //Muestra el mensaje en consola
-            }
-            const dataMarcas = await response.json(); //Guarda los datos de la peticion en una varible
+            const dataMarcas = await listarMarcas();
             selectTablaMarca.innerHTML = ""
             // Agrega la primera opción "Seleccionar una marca"
             const opcionSeleccionar = document.createElement("option");
@@ -170,11 +178,7 @@ const selectAgregarMarca = document.getElementById("select-AgregarMarca");
 //Llena el select con Marcas
 async function llenarSelectAgregarModelo(){
     try {
-        const response = await fetch("http://localhost:8080/marca/list"); // Realiza una petición fetch
-        if (!response.ok) { //Si la peticion tubo un error entonces
-            throw new Error("Error en la petición");  //Muestra el mensaje en consola
-        }
-        const dataMarcas = await response.json(); //Guarda los datos de la peticion en una varible
+        const dataMarcas = await listarMarcas();
         selectAgregarMarca.innerHTML = "";
         // Agrega la primera opción "Seleccionar una marca"
         const opcionSeleccionar = document.createElement("option");
@@ -223,7 +227,9 @@ function crearModelo(){
                 var modal = new bootstrap.Modal(document.getElementById('modalModelo'));
                 modal.hide();
     
-            } else {
+            }else if(response.status === 400){
+                alert("Ya existe un modelo con ese nombre");
+            }else {
                 console.log("Respuesta de red OK pero respuesta HTTP no OK");
             }
         })
@@ -269,11 +275,7 @@ const selectEditarMarca = document.getElementById("select-EditarMarca");
 //Llena el select con Marcas
 async function llenarSelectEditarModelo(){
     try {
-        const response = await fetch("http://localhost:8080/marca/list"); // Realiza una petición fetch
-        if (!response.ok) { //Si la peticion tubo un error entonces
-            throw new Error("Error en la petición");  //Muestra el mensaje en consola
-        }
-        const dataMarcas = await response.json(); //Guarda los datos de la peticion en una varible
+        const dataMarcas = await listarMarcas();
         selectEditarMarca.innerHTML = "";
 
         const opcionSeleccionar = document.createElement("option"); // Agrega la primera opción "Seleccionar una marca"
@@ -314,8 +316,10 @@ btnEditarModelo.addEventListener("click", function(){
         .then(function(response) {
             if (response.ok) {
                 getModelos();
-            } else {
-                alert("Hubo un error al editar la marca");
+            } else if(response.status === 400) {
+                alert("Ya existe un modelo con ese nombre");
+            }else{
+                alert("Hubo un problema al editar modelo");
             }
         })
         .catch(function(error) {

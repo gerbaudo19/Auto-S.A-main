@@ -79,7 +79,7 @@
                           <!-- Patente -->
                           <div class="mb-3">
                               <label for="AgregarNombrePatente" class="form-label">Patente</label>
-                              <input type="text" class="form-control" id="AgregarNombrePatente" placeholder="Patente">
+                              <input type="text" class="form-control" id="input-AgregarPatenteVehiculo" placeholder="Patente">
                           </div>
 
                           <!-- Marca -->
@@ -89,7 +89,7 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <select class="form-select" id="select-AgregarMarcaVehiculo" aria-label="Default select example" onchange="getModelo()">
+                                    <select class="form-select" id="select-AgregarMarcaVehiculo" aria-label="Default select example">
                                         <option selected>Seleccione una marca</option>
                                     </select>
                                 </div>
@@ -112,13 +112,13 @@
                           <!-- Kilometraje -->
                           <div class="mb-3">
                               <label for="AgregarkilometrajeVehiculo" class="form-label">Kilometraje</label>
-                              <input type="number" class="form-control" id="AgregarkilometrajeVehiculo" placeholder="kilometrake">
+                              <input type="number" class="form-control" id="input-AgregarkilometrajeVehiculo" placeholder="kilometrake">
                           </div>
 
                           <!-- Año -->
                           <div class="mb-3">
                               <label for="agregarAñoVehiculo" class="form-label">Año</label>
-                              <input type="email" class="form-control" id="AgregarAñoVehiculo" placeholder="año modelo">
+                              <input type="email" class="form-control" id="input-AgregarAñoVehiculo" placeholder="año modelo">
                           </div>
 
                           <!-- Cliente -->
@@ -128,7 +128,7 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <select class="form-select" id="select-AgregarClienteVehiculo" aria-label="Default select example" onchange="getModelo()">
+                                    <select class="form-select" id="select-AgregarClienteVehiculo" aria-label="Default select example">
                                         <option selected>Seleccione un cliente</option>
                                     </select>
                                 </div>
@@ -159,7 +159,7 @@
                           <!-- Patente -->
                           <div class="mb-3">
                               <label for="EditarNombrePatente" class="form-label">Patente</label>
-                              <input type="text" class="form-control" id="EditarNombrePatente" placeholder="Patente">
+                              <input type="text" class="form-control" id="input-EditarPatenteVehiculo" placeholder="Patente">
                           </div>
 
                           <!-- Marca -->
@@ -169,7 +169,7 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <select class="form-select" id="select-EditarMarcaVehiculo" aria-label="Default select example" onchange="getModelo()">
+                                    <select class="form-select" id="select-EditarMarcaVehiculo" aria-label="Default select example">
                                         <option selected>Seleccione una marca</option>
                                     </select>
                                 </div>
@@ -192,13 +192,13 @@
                           <!-- Kilometraje -->
                           <div class="mb-3">
                               <label for="EditarkilometrajeVehiculo" class="form-label">Kilometraje</label>
-                              <input type="number" class="form-control" id="EditarkilometrajeVehiculo" placeholder="kilometrake">
+                              <input type="number" class="form-control" id="input-EditarKilometrasjeVehiculo" placeholder="kilometrake">
                           </div>
 
                           <!-- Año -->
                           <div class="mb-3">
                               <label for="EditarAñoVehiculo" class="form-label">Año</label>
-                              <input type="email" class="form-control" id="EditarAñoVehiculo" placeholder="año modelo">
+                              <input type="email" class="form-control" id="input-EditarAñoVehiculo" placeholder="año modelo">
                           </div>
 
                           <!-- Cliente -->
@@ -238,15 +238,15 @@
                       <input type="text" class="form-control" id="input-TablaVehiculo" placeholder="Ingrese patente" style="display: none;">
                       <select class="form-select" aria-label="Default select example" id="select-TablaVehiculo" disabled></select>
                     </form>
-                </div>
+                  </div>
                   <div class="col">
-                    <select class="form-select" id="selectFiltrar" aria-label="Default select example">
+                    <select class="form-select" id="select-FiltrarVehiculo" aria-label="Default select example">
                         <option selected value="0">Filtrar</option>
                         <option value="1">Marca</option>
                         <option value="2">Patente</option>
                         <option value="3">Cliente</option>
                     </select>
-                </div>
+                  </div>
               </div>
             </div>
 
@@ -269,6 +269,9 @@
         </div>
       </div>
     </main>
-<Script src="../JS/Vehiculo/Vehiculo.js"></Script>
+    <!-- <Script src="../JS/Vehiculo/Vehiculo.js"></Script> -->
+    <script type="module" src="../JS/Vehiculo/VehiculoGet.js" ></script>
+    <script type="module" src="../JS/Vehiculo/VehiculoSet.js" ></script>
+    <script type="module" src="../JS/Vehiculo/VehiculoUD.js" ></script>
 </body>
 </html>

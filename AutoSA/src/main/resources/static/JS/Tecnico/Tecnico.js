@@ -20,7 +20,7 @@ function formatearString(textoEntrada) {
 // Cargar Tablas --------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-// Con ForEach ----------------------------------------------------------------
+// Con For ----------------------------------------------------------------
 
 async function llenarTablaFor(data){
 
@@ -50,7 +50,7 @@ async function llenarTablaFor(data){
             // Botones de modificar y eliminar
 
             const botonModificar = document.createElement('button');
-            botonModificar.textContent = 'Modificar';
+            botonModificar.textContent = 'Editar';
             botonModificar.classList= 'btn btn-primary';
             botonModificar.style = "margin: 0px 5px;"
             botonModificar.setAttribute("data-bs-target", "#modalEditarTecnico");
@@ -111,7 +111,7 @@ async function llenarTablaIf(data){
             // Botones de modificar y eliminar
 
             const botonModificar = document.createElement('button');
-            botonModificar.textContent = 'Modificar';
+            botonModificar.textContent = 'Editar';
             botonModificar.classList= 'btn btn-primary';
             botonModificar.style = "margin: 0px 5px;"
             botonModificar.setAttribute("data-bs-target", "#modalEditarTecnico");
@@ -220,13 +220,8 @@ const inputTablaTecnico= document.getElementById("input-TablaTecnico"); //Contie
 //Carga el select si se selecciono un filtrado
 selectFiltrar.addEventListener("change", async () => {
 
-    if (selectFiltrar.value === "1") { //Opcion DNI
+    if (selectFiltrar.value === "1" || selectFiltrar.value === "2") { //Opcion DNI o ID
         inputTablaTecnico.disabled = false; // Activa el input
-        inputTablaTecnico.type = "number";
-        inputTablaTecnico.value = "";
-    
-    }else if(selectFiltrar.value=== "2"){ //Opcion Legajo
-        inputTablaTecnico.disabled = false;
         inputTablaTecnico.type = "number";
         inputTablaTecnico.value = "";
 
@@ -303,6 +298,8 @@ function setTecnico(){
                 var modal = new bootstrap.Modal(document.getElementById('modalTecnico'));
                 modal.hide();
     
+            }else if(response.status === 400){
+                alert("Ya existe un Tecnico con ese DNI");
             } else {
                 console.log("Respuesta de red OK pero respuesta HTTP no OK");
             }
@@ -376,6 +373,8 @@ btnEditarTecnico.addEventListener("click", function(){
         .then(function(response) {
             if (response.ok) {
                 getTecnico();
+            }else if(response.status === 400){
+                alert("Ya existe un Tecnico con ese DNI");
             } else {
                 alert("Hubo un error al editar la marca");
             }

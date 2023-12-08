@@ -38,21 +38,21 @@ public class MarcaController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody MarcaDto marcaDto){
-        String nombreMarca = marcaDto.getNombre();
-        if(marcaDto.getNombre().isBlank() || marcaService.existsByNombre(nombreMarca)){
+        String nombreMarcaNuevo = marcaDto.getNombre();
+        if(marcaDto.getNombre().isBlank() || marcaService.existsByNombre(nombreMarcaNuevo)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else{
+            Marca marcaNuevo = new Marca(marcaDto.getNombre());
+            marcaService.save(marcaNuevo);
+
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-
-        Marca marcaNuevo = new Marca(marcaDto.getNombre());
-        marcaService.save(marcaNuevo);
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody MarcaDto marcaDto){
-        
-        if(!marcaService.existsById(id)){
+    public ResponseEntity<?> update(@PathVariable /*("id")*/ int id, @RequestBody MarcaDto marcaDto){
+       String nombreMarcaEditar = marcaDto.getNombre();
+        if(!marcaService.existsById(id) || marcaService.existsByNombre(nombreMarcaEditar) ){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -64,7 +64,7 @@ public class MarcaController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id")int id){
+    public ResponseEntity<?> delete(@PathVariable int id){
 
         if(!marcaService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

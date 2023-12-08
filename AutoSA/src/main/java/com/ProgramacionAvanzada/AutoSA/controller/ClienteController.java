@@ -37,12 +37,17 @@ public class ClienteController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody ClienteDto clienteDto){
-        String numeroDNI = clienteDto.getDni();
-        if(clienteDto.getNombre().isBlank() || clienteService.existsByDni(numeroDNI)){
+        String dniClienteNuevo = clienteDto.getDni();
+        if(clienteDto.getNombre().isBlank() ||
+        clienteDto.getApellido().isBlank() ||
+        clienteDto.getDomicilio().isBlank() ||
+        clienteDto.getDni().isBlank() ||
+        clienteService.existsByDni(dniClienteNuevo)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        
-        Cliente clienteNuevo = new Cliente(
+            
+        }else{
+
+            Cliente clienteNuevo = new Cliente(
             clienteDto.getNombre(),
             clienteDto.getApellido(),
             clienteDto.getDni(),
@@ -50,15 +55,15 @@ public class ClienteController {
             clienteDto.getEmail(),
             clienteDto.getDomicilio(),
             clienteDto.getFecha()
-        );
+            );
 
-        clienteService.save(clienteNuevo);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+            clienteService.save(clienteNuevo);
+            return new ResponseEntity<>(HttpStatus.OK);   
+        }
     }
+
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody ClienteDto clienteDto){
-        
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody ClienteDto clienteDto){
         if(!clienteService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -79,7 +84,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id")int id){
+    public ResponseEntity<?> delete(@PathVariable int id){
 
         if(!clienteService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

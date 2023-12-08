@@ -32,6 +32,10 @@ public class ServicioService {
         return servicioRepository.existsById(id);
     }
 
+    public boolean existsByNombre(String nombre){
+        return servicioRepository.existsByNombre(nombre);
+    }
+
     public Optional<Servicio> findById(int id){
         return servicioRepository.findById(id);
     }

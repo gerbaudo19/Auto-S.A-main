@@ -117,7 +117,7 @@
                       <div class="modal-body">
                           <div class="mb-3">
                               <label for="nombreEditarServicio" class="form-label">Nombre</label>
-                              <input type="text" class="form-control" id="nombreEditarServicio" placeholder="nombre">
+                              <input type="text" class="form-control" id="input-NombreEditarServicio" placeholder="nombre">
                           </div>
 
                           <div class="card mb-3">
@@ -127,12 +127,11 @@
                                     <label>Descripcion</label>
                                   </div> 
                                   <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Leave a comment here"  style="height: 100%" id="descripcionEditarServicio"></textarea>
+                                    <textarea class="form-control" placeholder="Leave a comment here"  style="height: 100%" id="input-DescripcionEditarServicio"></textarea>
                                   </div>
                               </div>
                             </div>
                           </div>
-
                       </div>
                       <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -173,6 +172,10 @@
         </div>
       </div>
   </main>
-<script src="../JS/Servicio/Servicio.js"></script>
+
+  <!-- <script src="../JS/Servicio/Servicio.js"></script>  -->
+    <script type="module" src="../JS/Servicio/ServicioGet.js"></script>
+    <script type="module" src="../JS/Servicio/ServicioSet.js"></script>
+    <script type="module" src="../JS/Servicio/ServicioUD.js"></script>
 </body>
 </html>

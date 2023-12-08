@@ -1,4 +1,9 @@
 const url = "http://localhost:8080/marca"; 
+
+//variables 
+const btnBuscar = document.getElementById("btn-buscar"); //Boton de Buscar
+const btnAgregarMarca = document.getElementById("btn-CrearMarca"); //Boton Agregar
+const btnEditarMarca = document.getElementById("btn-EditarMarca"); //Boton de Editar
 // ----------------------------------------------------------------------------
 // formatearTexto -------------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -19,15 +24,14 @@ function formatearString(textoEntrada) {
 // ----------------------------------------------------------------------------
 // Editar --------------------------------------------------------------------
 // ----------------------------------------------------------------------------
-const btnEditarMarca = document.getElementById("btn-EditarMarca");
-btnEditarMarca.addEventListener("click", function(){
+
+async function updateMarca(editarMarcaId){
     var nombreEditarMarca = document.getElementById("nombreEditarMarca").value;
-    var nombreEditarMarca = formatearString(nombreEditarMarca);
-    if(nombreEditarMarca.trim() === ""){
+    if(!nombreEditarMarca.trim()){
         alert("El nombre de la marca no puede estar vacio");
     }else{
         var editarMarcaData = {
-            nombre: nombreEditarMarca
+            nombre: formatearString(nombreEditarMarca)
         }
         fetch(url+`/update/${editarMarcaId}`, {
             method: "PUT",
@@ -39,16 +43,36 @@ btnEditarMarca.addEventListener("click", function(){
         .then(function(response) {
             if (response.ok) {
                 getMarcas();
-            } else {
-                alert("Hubo un error al editar la marca");
+            }else if(response.status === 400){
+                alert("Ya existe una marca con ese nombre");
             }
         })
         .catch(function(error) {
             console.error("Error:", error);
         });
     }
-})
+}
 
+// ----------------------------------------------------------------------------
+// Eliminar --------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+function deleteMarca(id){
+    // Realiza la solicitud DELETE a la URL con el ID como parámetro
+    fetch(url+`/delete/${id}`, {
+        method: "DELETE"
+    })
+    .then(function(response) {
+        if (response.ok) {
+            getMarcas();
+        } else {
+            alert("Hubo un error al eliminar la marca");
+        }
+    })
+    .catch(function(error) {
+        console.error("Error:", error);
+    });
+}
 
 // ----------------------------------------------------------------------------
 // Agregar --------------------------------------------------------------------
@@ -56,12 +80,11 @@ btnEditarMarca.addEventListener("click", function(){
 
 function setMarca(){
     var nombreNuevaMarca = document.getElementById("nombreNuevaMarca").value;
-    var nombreNuevaMarca = formatearString(nombreNuevaMarca);
-    if(nombreNuevaMarca.trim() === ""){
+    if(!nombreNuevaMarca.trim()){
         alert("El nombre de la marca no puede estar vacio");
     }else{
         var nuevaMarcaData = {
-            nombre: nombreNuevaMarca
+            nombre: formatearString(nombreNuevaMarca)
         }
         
         fetch(url + "/create", {
@@ -78,7 +101,8 @@ function setMarca(){
                 var modal = new bootstrap.Modal(document.getElementById('modalMarca'));
                 modal.hide();
     
-            } else {
+            } else if(response.status === 400){
+                alert("Ya existe una marca con ese nombre");
                 console.log("Respuesta de red OK pero respuesta HTTP no OK");
             }
         })
@@ -89,9 +113,6 @@ function setMarca(){
 }
 
 
-
-const btnAgregarMarca = document.getElementById("btn-CrearMarca"); //Boton Agregar
-
 btnAgregarMarca.addEventListener("click", function(){
     setMarca();
 })
@@ -101,8 +122,7 @@ btnAgregarMarca.addEventListener("click", function(){
 // ----------------------------------------------------------------------------
 // Cargar Tabla ---------------------------------------------------------------
 // ----------------------------------------------------------------------------
-var editarMarcaId; //
-
+let editarMarcaId;
 // Función para cargar y mostrar las marcas en una tabla
 async function getMarcas() {
     try {
@@ -128,21 +148,27 @@ async function getMarcas() {
             // Botones de modificar y eliminar
 
             const botonModificar = document.createElement('button');
-            botonModificar.textContent = 'Modificar';
+            botonModificar.textContent = 'Editar';
             botonModificar.classList= 'btn btn-primary';
             botonModificar.style = "margin: 0px 5px;"
             botonModificar.setAttribute("data-bs-target", "#modalEditarMarca");
             botonModificar.setAttribute("data-bs-toggle", "modal");
+            
+            
             botonModificar.addEventListener('click', function () {
                 editarMarcaId = marca.id;
+                btnEditarMarca.addEventListener("click", async function ()  {
+                    await updateMarca(editarMarcaId);
+                });
             });
 
             const botonEliminar = document.createElement('button');
             botonEliminar.textContent = 'Eliminar';
             botonEliminar.classList= 'btn btn-primary';
             botonEliminar.style = "margin: 0px 5px;"
-            botonEliminar.addEventListener('click', function () {
-                eliminarMarca(marca.id);
+           
+            botonEliminar.addEventListener('click',async function () {
+                await deleteMarca(marca.id);
             });
 
             columnaOpciones.appendChild(botonModificar);
@@ -159,7 +185,10 @@ async function getMarcas() {
     }
 }
 
-const btnBuscar = document.getElementById("btn-buscar");
+//
+// Evento boton Buscar 
+//
+
 btnBuscar.addEventListener("click", async function(event){
    event.preventDefault(); // Prevenir la recarga de la página
    await getMarcas();

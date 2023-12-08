@@ -47,5 +47,4 @@ public class TecnicoService {
     public boolean existsByDni(String dni){
         return tecnicoRepository.existsByDni(dni);
     }
-
 }

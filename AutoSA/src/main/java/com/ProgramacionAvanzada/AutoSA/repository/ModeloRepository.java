@@ -14,4 +14,5 @@ public interface ModeloRepository extends JpaRepository<Modelo, Integer>{
     Optional<Modelo> findByNombre (String nombre);
     List<Modelo> findByMarca(Marca marca);
     List<Modelo> findByMarcaId(int marcaid);
+    Boolean existsByNombre(String nombre);
 }

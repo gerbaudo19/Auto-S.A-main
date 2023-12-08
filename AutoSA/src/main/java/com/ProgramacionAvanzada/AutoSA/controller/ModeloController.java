@@ -66,7 +66,11 @@ public class ModeloController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody ModeloDto modeloDto){
-        try{            
+        String nombreModeloNuevo = modeloDto.getNombre();
+        if(modeloDto.getNombre().isBlank() || modeloService.existsByNombre(nombreModeloNuevo)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else{
+            try{            
             Modelo modeloNuevo = new Modelo(
                 modeloDto.getNombre(), 
                 modeloDto.getMarca()
@@ -79,12 +83,13 @@ public class ModeloController {
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody ModeloDto modeloDto){
-        
-        if(!modeloService.existsById(id)){
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody ModeloDto modeloDto){
+        String nombreModeloEditar = modeloDto.getNombre();
+        if(!modeloService.existsById(id) || modeloService.existsByNombre(nombreModeloEditar)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -97,7 +102,7 @@ public class ModeloController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id")int id){
+    public ResponseEntity<?> delete(@PathVariable int id){
 
         if(!modeloService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

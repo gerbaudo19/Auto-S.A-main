@@ -36,5 +36,8 @@ public class VehiculoDto {
         this.cliente = cliente;
         this.año = año;
         this.kilometraje = kilometraje;
+    }
+
+    public VehiculoDto(String string, Cliente cliente2, int i, int j) {
     }    
 }
