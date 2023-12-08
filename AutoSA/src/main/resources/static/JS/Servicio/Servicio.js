@@ -53,7 +53,7 @@ async function getServicios() {
             // Botones de modificar y eliminar
 
             const botonModificar = document.createElement('button');
-            botonModificar.textContent = 'Modificar';
+            botonModificar.textContent = 'Editar';
             botonModificar.classList= 'btn btn-primary';
             botonModificar.style = "margin: 0px 5px;"
             botonModificar.setAttribute("data-bs-target", "#modalEditarServicio");
@@ -122,7 +122,7 @@ btnEditarServicio.addEventListener("click", function(){
     var nombreEditarServicio = formatearString(nombreEditarServicio);
     var descripcionEditarServicio = document.getElementById("descripcionEditarServicio").value;
     if(nombreEditarServicio.trim() === ""){
-        alert("El nombre de la marca no puede estar vacio");
+        alert("Los campos no pueden estar vacio");
     }else{
         var editarServicioData = {
             nombre: nombreEditarServicio,
@@ -138,7 +138,7 @@ btnEditarServicio.addEventListener("click", function(){
         .then(function(response) {
             if (response.ok) {
                 getServicios();
-            } else {
+            }else {
                 alert("Hubo un error al editar la marca");
             }
         })

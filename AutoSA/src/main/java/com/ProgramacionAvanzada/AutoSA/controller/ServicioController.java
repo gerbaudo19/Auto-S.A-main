@@ -36,8 +36,8 @@ public class ServicioController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody ServicioDto servicioDto){
-
-        if(servicioDto.getNombre().isBlank()){
+        String nombreNuevoServicio = servicioDto.getNombre();
+        if(servicioDto.getNombre().isBlank() ||servicioService.existsByNombre(nombreNuevoServicio) ){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -52,9 +52,9 @@ public class ServicioController {
     }
 
    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody ServicioDto servicioDto){
-        
-        if(!servicioService.existsById(id)){
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody ServicioDto servicioDto){
+        String nombreServicioEditar = servicioDto.getNombre();
+        if(!servicioService.existsById(id) || servicioService.existsByNombre(nombreServicioEditar)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -69,7 +69,7 @@ public class ServicioController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id")int id){
+    public ResponseEntity<?> delete(@PathVariable int id){
 
         if(!servicioService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

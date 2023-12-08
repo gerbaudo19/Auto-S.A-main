@@ -29,10 +29,6 @@ public class ClienteService {
         clienteRepository.deleteById(id);
     }
 
-    public boolean existsById(int id) {
-        return clienteRepository.existsById(id);
-    }
-
     public Optional<Cliente> findById(int id){
         return clienteRepository.findById(id);
     }
@@ -47,6 +43,10 @@ public class ClienteService {
 
     public List<Cliente> findByFecha(LocalDate fecha){
         return clienteRepository.findByFecha(fecha);
+    }
+
+    public boolean existsById(int id) {
+        return clienteRepository.existsById(id);
     }
 
     public boolean existsByDni(String dni){

@@ -36,6 +36,9 @@ public class VehiculoController {
     @Autowired
     ClienteService clienteService;
 
+    public VehiculoController(VehiculoService vehiculoService2, ClienteService clienteService2) {
+    }
+
     //@GetMapping("/list"): Esta anotación se utiliza para especificar que este método debe manejar las solicitudes HTTP GET dirigidas a la ruta "/list".
     //public ResponseEntity<List<Vehiculo>> findAll() Es un metodo publico que devuelve un ResponseEntity que contiene una lista de objetos de tipo Vehiculo.
     @GetMapping("/list")
@@ -46,21 +49,24 @@ public class VehiculoController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    //@PostMapping se utiliza para indicar que este método maneja solicitudes HTTP POST a la ruta "/create".
+    //Este método tiene como parámetro un objeto VehiculoDto que se obtiene del cuerpo de la solicitud HTTP. La anotación @RequestBody indica que el objeto vehiculoDto se debe deserializar automáticamente a partir de los datos JSON enviados en el cuerpo de la solicitud.
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody VehiculoDto vehiculoDto) {
-        try {
-            String numeroPatente = vehiculoDto.getPatente();
-
-            // Verifica si ya existe un vehículo con la misma patente
-            if (vehiculoService.existsByPatente(numeroPatente)) {
-                return new ResponseEntity<>("La patente ya existe", HttpStatus.BAD_REQUEST);
-            }
-
-            // Continúa con la creación del vehículo
+    public ResponseEntity<?> create(@RequestBody VehiculoDto vehiculoDto){
+        String patenteVehiculoNuevo = vehiculoDto.getPatente();
+        if(vehiculoDto.getPatente().isBlank() ||
+        vehiculoService.existsByPatente(patenteVehiculoNuevo)
+        ){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else{
+            try {
+            //Se crea una variable clienteId que alamacena el id del cliente, este se obtiene a traves del parametro vehiculoDto, que a su ves tiene un objeto cliente con el metodo getId
             int clienteId = vehiculoDto.getCliente().getId();
+            //Se crea un objeto de cliente llamado clieVehiculo con los datos del cliente obtenidos por el metodo findById(clienteId).get() de la clase clienteService
             Cliente clieVehiculo = clienteService.findById(clienteId).get();  
-
-            if (clieVehiculo != null) {
+            //Si el cliente es distinto de nullo es decir que existe un cliente entonces
+            if(clieVehiculo != null){
+                //Se crea un nuevo objeto Vehiculo
                 Vehiculo vehiculoNuevo = new Vehiculo(
                     clieVehiculo,
                     vehiculoDto.getModelo(),
@@ -68,20 +74,23 @@ public class VehiculoController {
                     vehiculoDto.getKilometraje(),
                     vehiculoDto.getPatente()
                 );
+                //Se llama al metodo save en VehiculoService para guardar el nuevo vehiculo
                 vehiculoService.save(vehiculoNuevo);
             }
-
+            //Si todo se ejecuta correctamente, se devuelve una respuesta HTTP con el estado 200 OK 
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error al crear el vehículo", HttpStatus.BAD_REQUEST);
+            //Si ocurre alguna excepción durante el proceso, se captura la excepción en el bloque catch, y se devuelve una respuesta HTTP con el estado 400 Bad Request
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
         }
+        
     }
-
 
     // se utiliza para indicar que este método maneja solicitudes HTTP PUT a la ruta "/update/{id}". 
     //Este método tiene dos parámetros. El primero, @PathVariable("id") int id, captura el valor del ID del vehículo desde la URL. El segundo, @RequestBody VehiculoDto vehiculoDto, obtiene los datos del vehículo que se deserializan automáticamente desde el cuerpo de la solicitud HTTP (en formato JSON).
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody VehiculoDto vehiculoDto){
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody VehiculoDto vehiculoDto){
         //Se verifica si un vehículo con el ID proporcionado (id) existe en la base de datos utilizando el método existsById del servicio de vehículos (vehiculoService).
         if(!vehiculoService.existsById(id)){
             // Si no existe, se devuelve una respuesta HTTP con el estado 400 Bad Request
@@ -103,7 +112,7 @@ public class VehiculoController {
     // se utiliza para indicar que este método maneja solicitudes HTTP DELETE a la ruta "/delete/{id}"
     // Este método tiene un parámetro, @PathVariable("id") int id, que captura el valor del ID del vehículo desde la URL.
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id")int id){
+    public ResponseEntity<?> delete(@PathVariable int id){
         //Se verifica si un vehículo con el ID proporcionado (id) existe en la base de datos utilizando el método existsById del servicio de vehículos (vehiculoService)
         if(!vehiculoService.existsById(id)){
             // Si no existe, se devuelve una respuesta HTTP con el estado 400 Bad Request (HttpStatus.BAD_REQUEST)
@@ -131,10 +140,9 @@ public class VehiculoController {
     //se utiliza para indicar que este método maneja solicitudes HTTP GET a la ruta "/listbyclie/{id}
     // Este método tiene un parámetro, @PathVariable("id") int id, que captura el valor del ID del cliente desde la URL.
     @GetMapping("/listByClienteId/{id}")
-    public ResponseEntity<List<Vehiculo>> findByClienteId(@PathVariable("id") int id){
+    public ResponseEntity<List<Vehiculo>> findByClienteId(@PathVariable int id){
         try {
-            Cliente cliente = clienteService.findById(id).get();
-            List<Vehiculo> list = vehiculoService.findByCliente(cliente);
+            List<Vehiculo> list = vehiculoService.findByClienteId(id);
             //Finalmente, se devuelve una respuesta HTTP con el estado 200 OK (HttpStatus.OK) que incluye la lista de vehículos en formato JSON en el cuerpo de la respuesta.
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (Exception e) {

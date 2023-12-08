@@ -37,28 +37,34 @@ public class TecnicoController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody TecnicoDto tecnicoDto){
-        String numeroDNI = tecnicoDto.getDni();
-        if(tecnicoDto.getNombre().isBlank() || tecnicoService.existsByDni(numeroDNI)){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        String dniTecnicoNuevo = tecnicoDto.getDni();
+        if(tecnicoDto.getNombre().isBlank() ||
+        tecnicoDto.getApellido().isBlank() ||
+        tecnicoDto.getDomicilio().isBlank() ||
+        tecnicoDto.getDni().isBlank() ||
+        tecnicoService.existsByDni(dniTecnicoNuevo)
+        ){
 
-        Tecnico tecnicoNuevo = new Tecnico(
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            
+        }else{
+
+            Tecnico tecnicoNuevo = new Tecnico(
             tecnicoDto.getNombre(),
             tecnicoDto.getApellido(),
             tecnicoDto.getDni(),
             tecnicoDto.getTelefono(),
             tecnicoDto.getEmail(),
             tecnicoDto.getDomicilio()
-        );
+            );
 
-        tecnicoService.save(tecnicoNuevo);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+            tecnicoService.save(tecnicoNuevo);
+            return new ResponseEntity<>(HttpStatus.OK);   
+        }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody TecnicoDto tecnicoDto){
-        
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody TecnicoDto tecnicoDto){
         if(!tecnicoService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -78,7 +84,7 @@ public class TecnicoController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id")int id){
+    public ResponseEntity<?> delete(@PathVariable int id){
         if(!tecnicoService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

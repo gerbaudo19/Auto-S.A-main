@@ -32,4 +32,7 @@ public class OrdenDeTrabajoService {
         return ordenDeTrabajoRepository.findById(id);
     }
 
+    public Optional<OrdenDeTrabajo> obtenerUltimaOrdenDeTrabajo(){
+        return ordenDeTrabajoRepository.findFirstByOrderByIdDesc();
+    }
 }

@@ -1,6 +1,7 @@
 package com.ProgramacionAvanzada.AutoSA.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -80,4 +81,27 @@ public class OrdenDeTrabajoController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/listById/{id}")
+    public ResponseEntity<Optional<OrdenDeTrabajo>> findById(@PathVariable int id){
+
+        try {
+            Optional<OrdenDeTrabajo> ordenDeTrabajo = ordenDeTrabajoService.findById(id);
+            return new ResponseEntity<>(ordenDeTrabajo, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } 
+    }
+
+    @GetMapping("/listUltimo")
+    public ResponseEntity<Optional<OrdenDeTrabajo>> obtenerUltimaOrdenDeTrabajo(){
+
+        try {
+            Optional<OrdenDeTrabajo> ordenDeTrabajo = ordenDeTrabajoService.obtenerUltimaOrdenDeTrabajo();
+            return new ResponseEntity<>(ordenDeTrabajo, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } 
+    }
+    
 }

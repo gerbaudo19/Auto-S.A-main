@@ -1,4 +1,10 @@
 const url = "http://localhost:8080/cliente"; 
+//Variables necesarias
+const btnBuscar = document.getElementById("btn-Buscar");  //Contiene el boton buscar
+const selectFiltrar = document.getElementById("selectFiltrar"); //contiene el select de filtrar
+const inputTablaCliente= document.getElementById("input-TablaCliente"); //Contiene el input arriba de la tabla
+const btnAgregarCliente = document.getElementById("btn-AgregarCliente"); //Boton para agregar cliente
+const btnEditarCliente = document.getElementById("btn-EditarCliente"); //Boton para editar Cliente
 
 //Funcion para dar formato al texto
 function formatearString(textoEntrada) {
@@ -20,9 +26,156 @@ function formatearString(textoEntrada) {
 // ----------------------------------------------------------------------------
 // Cargar Tablas --------------------------------------------------------------
 // ----------------------------------------------------------------------------
-
-// Sin filtros ---------------------------------------------------------------
 var editarClienteId;
+//Con For ---------------------------------------------------------------------
+async function llenarTablaFor(dataCliente){
+    const tabla = document.getElementById('tablaCliente');
+    const tbody = tabla.querySelector('tbody');
+    tbody.innerHTML = '';
+
+    dataCliente.forEach(function (cliente) {
+        const fila = document.createElement('tr');
+        const columnaId = document.createElement('td');
+        const columnaDni = document.createElement('td');
+        const columnaApellido = document.createElement('td');
+        const columnaNombre = document.createElement('td');
+        const columnaTelefono = document.createElement('td');
+        const columnaEmail = document.createElement('td');
+        const columnaDomicilio = document.createElement('td');
+        const columnaOpciones = document.createElement('td');
+
+        columnaId.textContent = cliente.id;
+        columnaDni.textContent = cliente.dni;
+        columnaApellido.textContent = cliente.apellido;
+        columnaNombre.textContent = cliente.nombre;
+        columnaTelefono.textContent = cliente.telefono;
+        columnaEmail.textContent = cliente.email;
+        columnaDomicilio.textContent = cliente.domicilio;
+
+        // Botones de modificar y eliminar
+
+        const botonModificar = document.createElement('button');
+        botonModificar.textContent = 'Editar';
+        botonModificar.classList= 'btn btn-primary';
+        botonModificar.style = "margin: 0px 5px;"
+        botonModificar.setAttribute("data-bs-target", "#modalEditarCliente");
+        botonModificar.setAttribute("data-bs-toggle", "modal");
+        botonModificar.addEventListener('click', function () {
+            editarClienteId = cliente.id;
+        });
+
+        const botonEliminar = document.createElement('button');
+        botonEliminar.textContent = 'Eliminar';
+        botonEliminar.classList= 'btn btn-primary';
+        botonEliminar.style = "margin: 0px 5px;"
+        botonEliminar.addEventListener('click', function () {
+            eliminarCliente(cliente.id);
+        });
+
+        const botonVer = document.createElement('button');
+        botonVer.textContent = 'Ver';
+        botonVer.classList= 'btn btn-primary';
+        botonVer.style = "margin: 0px 5px;"
+        botonVer.setAttribute("data-bs-target", "#modalVerCliente");
+        botonVer.setAttribute("data-bs-toggle", "modal");
+        botonVer.addEventListener('click', function () {
+            editarTecnicoId = tecnico.id;
+        });
+
+        columnaOpciones.appendChild(botonModificar);
+        columnaOpciones.appendChild(botonEliminar);
+        columnaOpciones.appendChild(botonVer);
+
+        fila.appendChild(columnaId);
+        fila.appendChild(columnaDni)
+        fila.appendChild(columnaApellido)
+        fila.appendChild(columnaNombre);
+        fila.appendChild(columnaTelefono);
+        fila.appendChild(columnaEmail)
+        fila.appendChild(columnaDomicilio)
+        fila.appendChild(columnaOpciones);
+
+        tbody.appendChild(fila);
+    })
+}
+//Con if ----------------------------------------------------------------------
+async function llenarTablaIf(dataCliente){
+
+    const tabla = document.getElementById('tablaCliente');
+    const tbody = tabla.querySelector('tbody');
+    tbody.innerHTML = '';
+
+    cliente = dataCliente;
+        
+    if (cliente) {
+        const fila = document.createElement('tr');
+        const columnaId = document.createElement('td');
+        const columnaDni = document.createElement('td');
+        const columnaApellido = document.createElement('td');
+        const columnaNombre = document.createElement('td');
+        const columnaTelefono = document.createElement('td');
+        const columnaEmail = document.createElement('td');
+        const columnaDomicilio = document.createElement('td');
+        const columnaOpciones = document.createElement('td');
+
+        columnaId.textContent = cliente.id;
+        columnaDni.textContent = cliente.dni;
+        columnaApellido.textContent = cliente.apellido;
+        columnaNombre.textContent = cliente.nombre;
+        columnaTelefono.textContent = cliente.telefono;
+        columnaEmail.textContent = cliente.email;
+        columnaDomicilio.textContent = cliente.domicilio;
+
+        // Botones de modificar y eliminar
+
+        const botonModificar = document.createElement('button');
+        botonModificar.textContent = 'Editar';
+        botonModificar.classList= 'btn btn-primary';
+        botonModificar.style = "margin: 0px 5px;"
+        botonModificar.setAttribute("data-bs-target", "#modalEditarCliente");
+        botonModificar.setAttribute("data-bs-toggle", "modal");
+        botonModificar.addEventListener('click', function () {
+            editarClienteId = cliente.id;
+        });
+
+        const botonEliminar = document.createElement('button');
+        botonEliminar.textContent = 'Eliminar';
+        botonEliminar.classList= 'btn btn-primary';
+        botonEliminar.style = "margin: 0px 5px;"
+        botonEliminar.addEventListener('click', function () {
+            eliminarCliente(cliente.id);
+        });
+
+        const botonVer = document.createElement('button');
+        botonVer.textContent = 'Ver';
+        botonVer.classList= 'btn btn-primary';
+        botonVer.style = "margin: 0px 5px;"
+        botonVer.setAttribute("data-bs-target", "#modalVerCliente");
+        botonVer.setAttribute("data-bs-toggle", "modal");
+        botonVer.addEventListener('click', function () {
+            editarTecnicoId = tecnico.id;
+        });
+
+        columnaOpciones.appendChild(botonModificar);
+        columnaOpciones.appendChild(botonEliminar);
+        columnaOpciones.appendChild(botonVer);
+
+        fila.appendChild(columnaId);
+        fila.appendChild(columnaDni)
+        fila.appendChild(columnaApellido)
+        fila.appendChild(columnaNombre);
+        fila.appendChild(columnaTelefono);
+        fila.appendChild(columnaEmail)
+        fila.appendChild(columnaDomicilio)
+        fila.appendChild(columnaOpciones);
+
+        tbody.appendChild(fila);
+    }else{
+        alert("No se encontro ningun Cliente");
+    }
+
+}
+// Sin filtros ---------------------------------------------------------------
 
 async function getCliente() {
     try {
@@ -32,76 +185,10 @@ async function getCliente() {
         }
         const dataCliente = await response.json();
 
-        const tabla = document.getElementById('tablaCliente');
-        const tbody = tabla.querySelector('tbody');
-        tbody.innerHTML = '';
+        await llenarTablaFor(dataCliente);
 
-        dataCliente.forEach(function (cliente) {
-            const fila = document.createElement('tr');
-            const columnaId = document.createElement('td');
-            const columnaDni = document.createElement('td');
-            const columnaApellido = document.createElement('td');
-            const columnaNombre = document.createElement('td');
-            const columnaTelefono = document.createElement('td');
-            const columnaEmail = document.createElement('td');
-            const columnaDomicilio = document.createElement('td');
-            const columnaOpciones = document.createElement('td');
-
-            columnaId.textContent = cliente.id;
-            columnaDni.textContent = cliente.dni;
-            columnaApellido.textContent = cliente.apellido;
-            columnaNombre.textContent = cliente.nombre;
-            columnaTelefono.textContent = cliente.telefono;
-            columnaEmail.textContent = cliente.email;
-            columnaDomicilio.textContent = cliente.domicilio;
-
-            // Botones de modificar y eliminar
-
-            const botonModificar = document.createElement('button');
-            botonModificar.textContent = 'Modificar';
-            botonModificar.classList= 'btn btn-primary';
-            botonModificar.style = "margin: 0px 5px;"
-            botonModificar.setAttribute("data-bs-target", "#modalEditarCliente");
-            botonModificar.setAttribute("data-bs-toggle", "modal");
-            botonModificar.addEventListener('click', function () {
-                editarClienteId = cliente.id;
-            });
-
-            const botonEliminar = document.createElement('button');
-            botonEliminar.textContent = 'Eliminar';
-            botonEliminar.classList= 'btn btn-primary';
-            botonEliminar.style = "margin: 0px 5px;"
-            botonEliminar.addEventListener('click', function () {
-                eliminarCliente(cliente.id);
-            });
-
-            const botonVer = document.createElement('button');
-            botonVer.textContent = 'Ver';
-            botonVer.classList= 'btn btn-primary';
-            botonVer.style = "margin: 0px 5px;"
-            botonVer.setAttribute("data-bs-target", "#modalVerCliente");
-            botonVer.setAttribute("data-bs-toggle", "modal");
-            botonVer.addEventListener('click', function () {
-                editarTecnicoId = tecnico.id;
-            });
-
-            columnaOpciones.appendChild(botonModificar);
-            columnaOpciones.appendChild(botonEliminar);
-            columnaOpciones.appendChild(botonVer);
-
-            fila.appendChild(columnaId);
-            fila.appendChild(columnaDni)
-            fila.appendChild(columnaApellido)
-            fila.appendChild(columnaNombre);
-            fila.appendChild(columnaTelefono);
-            fila.appendChild(columnaEmail)
-            fila.appendChild(columnaDomicilio)
-            fila.appendChild(columnaOpciones);
-
-            tbody.appendChild(fila);
-        });
     } catch (error) {
-        console.error('Error al cargar los Tecnicos:', error);
+        console.error('Error al cargar los Clientes:', error);
     }
 }
 
@@ -115,76 +202,8 @@ async function getClienteXDni() {
         }
         const dataCliente = await response.json();
 
-        const tabla = document.getElementById('tablaCliente');
-        const tbody = tabla.querySelector('tbody');
-        tbody.innerHTML = '';
-        cliente = dataCliente;
-        if (cliente) {
-            const fila = document.createElement('tr');
-            const columnaId = document.createElement('td');
-            const columnaDni = document.createElement('td');
-            const columnaApellido = document.createElement('td');
-            const columnaNombre = document.createElement('td');
-            const columnaTelefono = document.createElement('td');
-            const columnaEmail = document.createElement('td');
-            const columnaDomicilio = document.createElement('td');
-            const columnaOpciones = document.createElement('td');
+        await llenarTablaIf(dataCliente);
 
-            columnaId.textContent = cliente.id;
-            columnaDni.textContent = cliente.dni;
-            columnaApellido.textContent = cliente.apellido;
-            columnaNombre.textContent = cliente.nombre;
-            columnaTelefono.textContent = cliente.telefono;
-            columnaEmail.textContent = cliente.email;
-            columnaDomicilio.textContent = cliente.domicilio;
-
-            // Botones de modificar y eliminar
-
-            const botonModificar = document.createElement('button');
-            botonModificar.textContent = 'Modificar';
-            botonModificar.classList= 'btn btn-primary';
-            botonModificar.style = "margin: 0px 5px;"
-            botonModificar.setAttribute("data-bs-target", "#modalEditarCliente");
-            botonModificar.setAttribute("data-bs-toggle", "modal");
-            botonModificar.addEventListener('click', function () {
-                editarClienteId = cliente.id;
-            });
-
-            const botonEliminar = document.createElement('button');
-            botonEliminar.textContent = 'Eliminar';
-            botonEliminar.classList= 'btn btn-primary';
-            botonEliminar.style = "margin: 0px 5px;"
-            botonEliminar.addEventListener('click', function () {
-                eliminarCliente(cliente.id);
-            });
-
-            const botonVer = document.createElement('button');
-            botonVer.textContent = 'Ver';
-            botonVer.classList= 'btn btn-primary';
-            botonVer.style = "margin: 0px 5px;"
-            botonVer.setAttribute("data-bs-target", "#modalVerCliente");
-            botonVer.setAttribute("data-bs-toggle", "modal");
-            botonVer.addEventListener('click', function () {
-                editarTecnicoId = tecnico.id;
-            });
-
-            columnaOpciones.appendChild(botonModificar);
-            columnaOpciones.appendChild(botonEliminar);
-            columnaOpciones.appendChild(botonVer);
-
-            fila.appendChild(columnaId);
-            fila.appendChild(columnaDni)
-            fila.appendChild(columnaApellido)
-            fila.appendChild(columnaNombre);
-            fila.appendChild(columnaTelefono);
-            fila.appendChild(columnaEmail)
-            fila.appendChild(columnaDomicilio)
-            fila.appendChild(columnaOpciones);
-
-            tbody.appendChild(fila);
-        }else{
-            alert("No se encontro ningun Tencinco");
-        }
     } catch (error) {
         console.error('Error al cargar los Tecnicos:', error);
     }
@@ -199,77 +218,7 @@ async function getClienteXId() {
             throw new Error(`Error al cargar los Clientes: ${response.status}`);
         }
         const dataCliente = await response.json();
-
-        const tabla = document.getElementById('tablaCliente');
-        const tbody = tabla.querySelector('tbody');
-        tbody.innerHTML = '';
-        cliente = dataCliente;
-        if (cliente) {
-            const fila = document.createElement('tr');
-            const columnaId = document.createElement('td');
-            const columnaDni = document.createElement('td');
-            const columnaApellido = document.createElement('td');
-            const columnaNombre = document.createElement('td');
-            const columnaTelefono = document.createElement('td');
-            const columnaEmail = document.createElement('td');
-            const columnaDomicilio = document.createElement('td');
-            const columnaOpciones = document.createElement('td');
-
-            columnaId.textContent = cliente.id;
-            columnaDni.textContent = cliente.dni;
-            columnaApellido.textContent = cliente.apellido;
-            columnaNombre.textContent = cliente.nombre;
-            columnaTelefono.textContent = cliente.telefono;
-            columnaEmail.textContent = cliente.email;
-            columnaDomicilio.textContent = cliente.domicilio;
-
-            // Botones de modificar y eliminar
-
-            const botonModificar = document.createElement('button');
-            botonModificar.textContent = 'Modificar';
-            botonModificar.classList= 'btn btn-primary';
-            botonModificar.style = "margin: 0px 5px;"
-            botonModificar.setAttribute("data-bs-target", "#modalEditarCliente");
-            botonModificar.setAttribute("data-bs-toggle", "modal");
-            botonModificar.addEventListener('click', function () {
-                editarClienteId = cliente.id;
-            });
-
-            const botonEliminar = document.createElement('button');
-            botonEliminar.textContent = 'Eliminar';
-            botonEliminar.classList= 'btn btn-primary';
-            botonEliminar.style = "margin: 0px 5px;"
-            botonEliminar.addEventListener('click', function () {
-                eliminarCliente(cliente.id);
-            });
-
-            const botonVer = document.createElement('button');
-            botonVer.textContent = 'Ver';
-            botonVer.classList= 'btn btn-primary';
-            botonVer.style = "margin: 0px 5px;"
-            botonVer.setAttribute("data-bs-target", "#modalVerCliente");
-            botonVer.setAttribute("data-bs-toggle", "modal");
-            botonVer.addEventListener('click', function () {
-                editarTecnicoId = tecnico.id;
-            });
-
-            columnaOpciones.appendChild(botonModificar);
-            columnaOpciones.appendChild(botonEliminar);
-            columnaOpciones.appendChild(botonVer);
-
-            fila.appendChild(columnaId);
-            fila.appendChild(columnaDni)
-            fila.appendChild(columnaApellido)
-            fila.appendChild(columnaNombre);
-            fila.appendChild(columnaTelefono);
-            fila.appendChild(columnaEmail)
-            fila.appendChild(columnaDomicilio)
-            fila.appendChild(columnaOpciones);
-
-            tbody.appendChild(fila);
-        }else{
-            alert("No se encontro ningun Tencinco");
-        }
+        await llenarTablaIf(dataCliente);
     } catch (error) {
         console.error('Error al cargar los Tecnicos:', error);
     }
@@ -286,75 +235,7 @@ async function getClienteXNombre() {
             throw new Error(`Error al cargar los Tecnicos: ${response.status}`);
         }
         const dataCliente = await response.json();
-
-        const tabla = document.getElementById('tablaCliente');
-        const tbody = tabla.querySelector('tbody');
-        tbody.innerHTML = '';
-
-        dataCliente.forEach(function (cliente) {
-            const fila = document.createElement('tr');
-            const columnaId = document.createElement('td');
-            const columnaDni = document.createElement('td');
-            const columnaApellido = document.createElement('td');
-            const columnaNombre = document.createElement('td');
-            const columnaTelefono = document.createElement('td');
-            const columnaEmail = document.createElement('td');
-            const columnaDomicilio = document.createElement('td');
-            const columnaOpciones = document.createElement('td');
-
-            columnaId.textContent = cliente.id;
-            columnaDni.textContent = cliente.dni;
-            columnaApellido.textContent = cliente.apellido;
-            columnaNombre.textContent = cliente.nombre;
-            columnaTelefono.textContent = cliente.telefono;
-            columnaEmail.textContent = cliente.email;
-            columnaDomicilio.textContent = cliente.domicilio;
-
-            // Botones de modificar y eliminar
-
-            const botonModificar = document.createElement('button');
-            botonModificar.textContent = 'Modificar';
-            botonModificar.classList= 'btn btn-primary';
-            botonModificar.style = "margin: 0px 5px;"
-            botonModificar.setAttribute("data-bs-target", "#modalEditarCliente");
-            botonModificar.setAttribute("data-bs-toggle", "modal");
-            botonModificar.addEventListener('click', function () {
-                editarClienteId = cliente.id;
-            });
-
-            const botonEliminar = document.createElement('button');
-            botonEliminar.textContent = 'Eliminar';
-            botonEliminar.classList= 'btn btn-primary';
-            botonEliminar.style = "margin: 0px 5px;"
-            botonEliminar.addEventListener('click', function () {
-                eliminarCliente(cliente.id);
-            });
-
-            const botonVer = document.createElement('button');
-            botonVer.textContent = 'Ver';
-            botonVer.classList= 'btn btn-primary';
-            botonVer.style = "margin: 0px 5px;"
-            botonVer.setAttribute("data-bs-target", "#modalVerCliente");
-            botonVer.setAttribute("data-bs-toggle", "modal");
-            botonVer.addEventListener('click', function () {
-                editarTecnicoId = tecnico.id;
-            });
-
-            columnaOpciones.appendChild(botonModificar);
-            columnaOpciones.appendChild(botonEliminar);
-            columnaOpciones.appendChild(botonVer);
-
-            fila.appendChild(columnaId);
-            fila.appendChild(columnaDni)
-            fila.appendChild(columnaApellido)
-            fila.appendChild(columnaNombre);
-            fila.appendChild(columnaTelefono);
-            fila.appendChild(columnaEmail)
-            fila.appendChild(columnaDomicilio)
-            fila.appendChild(columnaOpciones);
-
-            tbody.appendChild(fila);
-        });
+        await llenarTablaFor(dataCliente);
     } catch (error) {
         console.error('Error al cargar los Tecnicos:', error);
     }
@@ -370,94 +251,18 @@ async function getClienteXFecha() {
         }
         const dataCliente = await response.json();
 
-        const tabla = document.getElementById('tablaCliente');
-        const tbody = tabla.querySelector('tbody');
-        tbody.innerHTML = '';
-
-        dataCliente.forEach(function (cliente) {
-            const fila = document.createElement('tr');
-            const columnaId = document.createElement('td');
-            const columnaDni = document.createElement('td');
-            const columnaApellido = document.createElement('td');
-            const columnaNombre = document.createElement('td');
-            const columnaTelefono = document.createElement('td');
-            const columnaEmail = document.createElement('td');
-            const columnaDomicilio = document.createElement('td');
-            const columnaOpciones = document.createElement('td');
-
-            columnaId.textContent = cliente.id;
-            columnaDni.textContent = cliente.dni;
-            columnaApellido.textContent = cliente.apellido;
-            columnaNombre.textContent = cliente.nombre;
-            columnaTelefono.textContent = cliente.telefono;
-            columnaEmail.textContent = cliente.email;
-            columnaDomicilio.textContent = cliente.domicilio;
-
-            // Botones de modificar y eliminar
-
-            const botonModificar = document.createElement('button');
-            botonModificar.textContent = 'Modificar';
-            botonModificar.classList= 'btn btn-primary';
-            botonModificar.style = "margin: 0px 5px;"
-            botonModificar.setAttribute("data-bs-target", "#modalEditarCliente");
-            botonModificar.setAttribute("data-bs-toggle", "modal");
-            botonModificar.addEventListener('click', function () {
-                editarClienteId = cliente.id;
-            });
-
-            const botonEliminar = document.createElement('button');
-            botonEliminar.textContent = 'Eliminar';
-            botonEliminar.classList= 'btn btn-primary';
-            botonEliminar.style = "margin: 0px 5px;"
-            botonEliminar.addEventListener('click', function () {
-                eliminarCliente(cliente.id);
-            });
-
-            const botonVer = document.createElement('button');
-            botonVer.textContent = 'Ver';
-            botonVer.classList= 'btn btn-primary';
-            botonVer.style = "margin: 0px 5px;"
-            botonVer.setAttribute("data-bs-target", "#modalVerCliente");
-            botonVer.setAttribute("data-bs-toggle", "modal");
-            botonVer.addEventListener('click', function () {
-                editarTecnicoId = tecnico.id;
-            });
-
-            columnaOpciones.appendChild(botonModificar);
-            columnaOpciones.appendChild(botonEliminar);
-            columnaOpciones.appendChild(botonVer);
-
-            fila.appendChild(columnaId);
-            fila.appendChild(columnaDni)
-            fila.appendChild(columnaApellido)
-            fila.appendChild(columnaNombre);
-            fila.appendChild(columnaTelefono);
-            fila.appendChild(columnaEmail)
-            fila.appendChild(columnaDomicilio)
-            fila.appendChild(columnaOpciones);
-
-            tbody.appendChild(fila);
-        });
+        await llenarTablaFor(dataCliente);
     } catch (error) {
         console.error('Error al cargar los Tecnicos:', error);
     }
 }
 //Leer opcion de filtrado y buscar -------------------------------------
 
-const btnBuscar = document.getElementById("btn-Buscar");  //Contiene el boton buscar
-const selectFiltrar = document.getElementById("selectFiltrar"); //contiene el select de filtrar
-const inputTablaCliente= document.getElementById("input-TablaCliente"); //Contiene el input arriba de la tabla
-
 //Carga el select si se selecciono un filtrado
 selectFiltrar.addEventListener("change", async () => {
 
-    if (selectFiltrar.value === "1") { //Opcion DNI
+    if (selectFiltrar.value === "1" || selectFiltrar.value === "2") { //Opcion DNI
         inputTablaCliente.disabled = false; // Activa el input
-        inputTablaCliente.type = "number";
-        inputTablaCliente.value = "";
-    
-    }else if(selectFiltrar.value=== "2"){ //Opcion Id
-        inputTablaCliente.disabled = false;
         inputTablaCliente.type = "number";
         inputTablaCliente.value = "";
 
@@ -503,29 +308,24 @@ btnBuscar.addEventListener("click", async function(event){
 // Agregar --------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-const btnAgregarCliente = document.getElementById("btn-AgregarCliente");
-
 function setCliente(){
     var nombreNuevoCliente = document.getElementById("nombreNuevoCliente").value;
-    var nombreNuevoCliente = formatearString(nombreNuevoCliente);
     var apellidoNuevoCliente = document.getElementById("apellidoNuevoCliente").value;
-    var apellidoNuevoCliente = formatearString(apellidoNuevoCliente);
     var dniNuevoCliente = document.getElementById("dniNuevoCliente").value;
     var telefonoNuevoCliente = document.getElementById("telefonoNuevoCliente").value;
     var emailNuevoCliente = document.getElementById("emailNuevoCliente").value;
-    var domicilioNuevoCliente = document.getElementById("domicilioNuevoCliente").value;
-    var domicilioNuevoCliente = formatearString(domicilioNuevoCliente);
-    
-    if(nombreNuevoCliente.trim() === "" || apellidoNuevoCliente.trim() === "" || dniNuevoCliente.trim() === null || telefonoNuevoCliente.trim() ===  null || emailNuevoCliente.trim() === null || domicilioNuevoCliente.trim() === ""){
+    var domicilioNuevoCliente = document.getElementById("domicilioNuevoCliente").value
+
+    if(!nombreNuevoCliente.trim() || !apellidoNuevoCliente.trim() || !dniNuevoCliente.trim() || !telefonoNuevoCliente.trim() || !emailNuevoCliente.trim() || !domicilioNuevoCliente.trim()){
         alert("Ningun campo puede estar vacio");
     }else{
         var nuevoClienteData = {
-            nombre: nombreNuevoCliente,
-            apellido : apellidoNuevoCliente,
+            nombre: formatearString(nombreNuevoCliente),
+            apellido : formatearString(apellidoNuevoCliente),
             dni : dniNuevoCliente,
             telefono : telefonoNuevoCliente,
             email : emailNuevoCliente,
-            domicilio : domicilioNuevoCliente,
+            domicilio : formatearString(domicilioNuevoCliente),
         }
         
         fetch(url + "/create", {
@@ -537,13 +337,14 @@ function setCliente(){
         })
         .then(function (response) {
             if (response.ok) {
-    
                 getCliente();
                 var modal = new bootstrap.Modal(document.getElementById('modalCliente'));
                 modal.hide();
     
-            } else {
-                console.log("Respuesta de red OK pero respuesta HTTP no OK");
+            } else if(response.status === 400) {
+                alert("Ya existe un cliente con ese DNI");
+            }else{
+                alert("Response Estatus"+ response.statusText);
             }
         })
         .catch(error => {
@@ -582,34 +383,24 @@ function eliminarCliente(id){
 // Editar --------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-const btnEditarCliente = document.getElementById("btn-EditarCliente");
-
 btnEditarCliente.addEventListener("click", function(){
     var nombreEditarCliente = document.getElementById("nombreEditarCliente").value;
-    var nombreEditarCliente = formatearString(nombreEditarCliente);
     var apellidoEditarCliente = document.getElementById("apellidoEditarCliente").value;
-    var apellidoEditarCliente = formatearString(apellidoEditarCliente);
     var dniEditarCliente = document.getElementById("dniEditarCliente").value;
     var telefonoEditarCliente = document.getElementById("telefonoEditarCliente").value;
     var emailEditarCliente = document.getElementById("emailEditarCliente").value;
     var domicilioEditarCliente = document.getElementById("domicilioEditarCliente").value
-    var domicilioEditarCliente = formatearString(domicilioEditarCliente);
-    const fechaActual = new Date(); // Obtiene la fecha actual
-    const anio = fechaActual.getFullYear(); // Obtiene el año
-    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Obtiene el mes (agrega 1 ya que los meses se indexan desde 0)
-    const dia = String(fechaActual.getDate()).padStart(2, '0'); // Obtiene el día
-    const fechaFormateada = `${anio}-${mes}-${dia}`;
-    if(nombreEditarCliente.trim() === "" || apellidoEditarCliente.trim() === "" || dniEditarCliente.trim() === null || telefonoEditarCliente.trim() ===  null || emailEditarCliente.trim() === null || domicilioEditarCliente.trim() === ""){
+
+    if(!nombreEditarCliente.trim() || !apellidoEditarCliente.trim() || !dniEditarCliente.trim() || !telefonoEditarCliente.trim() || !emailEditarCliente.trim() || !domicilioEditarCliente.trim()){
         alert("Ningun campo puede estar vacio");
     }else{
         var editarClienteData = {
-            nombre: nombreEditarCliente,
-            apellido : apellidoEditarCliente,
+            nombre: formatearString(nombreEditarCliente),
+            apellido : formatearString(apellidoEditarCliente),
             dni : dniEditarCliente,
             telefono : telefonoEditarCliente,
             email : emailEditarCliente,
-            domicilio : domicilioEditarCliente,
-            fecha : fechaFormateada
+            domicilio : formatearString(domicilioEditarCliente)
         }
         fetch(url+`/update/${editarClienteId}`, {
             method: "PUT",
@@ -621,7 +412,9 @@ btnEditarCliente.addEventListener("click", function(){
         .then(function(response) {
             if (response.ok) {
                 getCliente();
-            } else {
+            }else if(response.status === 400){
+                alert("Ya hay un cliente con ese DNI");
+            }else {
                 alert("Hubo un error al editar la marca");
             }
         })

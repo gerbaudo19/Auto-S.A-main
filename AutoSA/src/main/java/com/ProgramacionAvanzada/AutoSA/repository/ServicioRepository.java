@@ -7,5 +7,5 @@ import com.ProgramacionAvanzada.AutoSA.entity.Servicio;
 
 @Repository
 public interface ServicioRepository extends JpaRepository<Servicio, Integer> {
-
+    Boolean existsByNombre(String nombre);
 }

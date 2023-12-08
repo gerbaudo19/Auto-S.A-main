@@ -1,5 +1,27 @@
 const url = "http://localhost:8080/vehiculo"; 
-
+//Variables buscar
+const selectFiltrar = document.getElementById("select-FiltrarVehiculo");
+const inputTablaVehiculo = document.getElementById("input-TablaVehiculo");
+const selectTablaVehiculo = document.getElementById("select-TablaVehiculo");
+const btnBuscar = document.getElementById("btn-Buscar");
+//varibales agregar
+const btnCargarModalAgrega = document.getElementById("btn-CargarModalAgregaVehiculo");
+const btnAgregaVehiculo = document.getElementById("btn-AgregarVehiculo");
+const selectAgregarMarca = document.getElementById("select-AgregarMarcaVehiculo");
+const selectAgregarModelo = document.getElementById("select-AgregarModeloVehiculo");
+const selectAgregarCliente = document.getElementById("select-AgregarClienteVehiculo");
+const inputAgregarPatente = document.getElementById("input-AgregarPatenteVehiculo");
+const inputAgregarAño = document.getElementById("input-AgregarAñoVehiculo");
+const inputAgregarKilometraje = document.getElementById("input-AgregarkilometrajeVehiculo");
+//variables Editar
+const inputEditarPatente = document.getElementById("input-EditarPatenteVehiculo");
+const inputEditarAño = document.getElementById("input-EditarAñoVehiculo");
+const inputEditarKilometraje = document.getElementById("input-EditarKilometrasjeVehiculo");
+const selectEditarModelo = document.getElementById("select-EditarModeloVehiculo");
+const selectEditarCliente = document.getElementById("select-EditarClienteVehiculo");
+const selectEditarMarca = document.getElementById("select-EditarMarcaVehiculo");
+const btnEditarVehiculo = document.getElementById("btn-EditarVehiculo");
+var idEditarVehiculo;
 // ----------------------------------------------------------------------------
 // formatearTexto -------------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -18,15 +40,59 @@ function formatearString(textoEntrada) {
 }
 
 // ----------------------------------------------------------------------------
-// Cargar Tablas --------------------------------------------------------------
+// Listar Cliente -------------------------------------------------------------
 // ----------------------------------------------------------------------------
-//Con For ---------------------------------------------------------------------
-async function llenarTablaFor(data){
+
+async function listarCliente(){
+    const response = await fetch("http://localhost:8080/cliente/list"); // Realiza una petición fetch
+    if (!response.ok) { //Si la peticion tubo un error entonces
+        throw new Error("Error en la petición");  //Muestra el mensaje en consola
+    }
+    const dataCliente = await response.json(); //Guarda los datos de la peticion en una varible
+    return dataCliente;
+}
+
+// ----------------------------------------------------------------------------
+// Listar Marca ---------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+async function listarMarca(){
+    const response = await fetch("http://localhost:8080/marca/list"); // Realiza una petición fetch
+    if (!response.ok) { //Si la peticion tubo un error entonces
+        throw new Error("Error en la petición");  //Muestra el mensaje en consola
+    }
+    const dataMarcas = await response.json(); //Guarda los datos de la peticion en una varible
+    return dataMarcas;
+}
+
+// ----------------------------------------------------------------------------
+// Listar Modelo --------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+async function listarModelo(marca){
+    const response = await fetch(`http://localhost:8080/modelo/listByMarca/${marca}`); // Realiza una petición fetch
+    if (!response.ok) { //Si la peticion tubo un error entonces
+        throw new Error("Error en la petición");  //Muestra el mensaje en consola
+    }
+    const dataModelos = await response.json(); //Guarda los datos de la peticion en una varible
+    return dataModelos;
+}
+
+// --------------------------------------------------------------------------------------------------------------------------------------------
+// Buscar -------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Llenar tabla con For -------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+
+async function llenarTablaFor(dataVehiculo){
     const tabla = document.getElementById('tablaVehiculo');
     const tbody = tabla.querySelector('tbody');
     tbody.innerHTML = '';
 
-    data.forEach(function (vehiculo) {
+    dataVehiculo.forEach(function (vehiculo) {
         const fila = document.createElement('tr');
         const columnaPatente = document.createElement('td');
         const columnaMarca = document.createElement('td');
@@ -43,24 +109,24 @@ async function llenarTablaFor(data){
 
         // Botones de modificar y eliminar
 
-        const botonModificar = document.createElement('button');
-        botonModificar.textContent = 'Modificar';
-        botonModificar.classList= 'btn btn-primary';
-        botonModificar.style = "margin: 0px 5px;"
-        botonModificar.setAttribute("data-bs-target", "#modalEditarVehiculo");
-        botonModificar.setAttribute("data-bs-toggle", "modal");
-        botonModificar.addEventListener('click', function () {
-            editarVehiculoId = vehiculo.id;
-            llenarSelectMarcaEditar();
-            llenarSelectClienteEditar();
+        const botonEditar = document.createElement('button');
+        botonEditar.textContent = 'Editar';
+        botonEditar.classList= 'btn btn-primary';
+        botonEditar.style = "margin: 0px 5px;"
+        botonEditar.setAttribute("data-bs-target", "#modalEditarVehiculo");
+        botonEditar.setAttribute("data-bs-toggle", "modal");
+        botonEditar.addEventListener('click',async function () {
+            idEditarVehiculo = vehiculo.id;
+            await llenarSelectMarcaEditar();
+            await llenarSelectClienteEditar();
         });
 
         const botonEliminar = document.createElement('button');
         botonEliminar.textContent = 'Eliminar';
         botonEliminar.classList= 'btn btn-primary';
         botonEliminar.style = "margin: 0px 5px;"
-        botonEliminar.addEventListener('click', function () {
-            eliminarVehiculo(vehiculo.id);
+        botonEliminar.addEventListener('click',async function () {
+            await eliminarVehiculo(vehiculo.id);
         });
 
         const botonVer = document.createElement('button');
@@ -69,11 +135,11 @@ async function llenarTablaFor(data){
         botonVer.style = "margin: 0px 5px;"
         botonVer.setAttribute("data-bs-target", "#modalEditarVehiculo");
         botonVer.setAttribute("data-bs-toggle", "modal");
-        botonVer.addEventListener('click', function () {
-            editarVehiculoId = vehiculo.id;
+        botonVer.addEventListener('click',async function () {
+            
         });
 
-        columnaOpciones.appendChild(botonModificar);
+        columnaOpciones.appendChild(botonEditar);
         columnaOpciones.appendChild(botonEliminar);
         columnaOpciones.appendChild(botonVer);
 
@@ -88,13 +154,15 @@ async function llenarTablaFor(data){
     });
 }
 
-//Con If ----------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// llenar tabla con if --------------------------------------------------------
+// ----------------------------------------------------------------------------
 
-async function llenarTablaIf(data){
+async function llenarTablaIf(dataVehiculo){
     const tabla = document.getElementById('tablaVehiculo');
         const tbody = tabla.querySelector('tbody');
         tbody.innerHTML = '';
-        vehiculo = data;
+        const vehiculo = dataVehiculo;
         if(vehiculo){
             const fila = document.createElement('tr');
             const columnaPatente = document.createElement('td');
@@ -112,16 +180,16 @@ async function llenarTablaIf(data){
 
             // Botones de modificar y eliminar
 
-            const botonModificar = document.createElement('button');
-            botonModificar.textContent = 'Modificar';
-            botonModificar.classList= 'btn btn-primary';
-            botonModificar.style = "margin: 0px 5px;"
-            botonModificar.setAttribute("data-bs-target", "#modalEditarVehiculo");
-            botonModificar.setAttribute("data-bs-toggle", "modal");
-            botonModificar.addEventListener('click', function () {
-                editarVehiculoId = vehiculo.id;
-                llenarSelectMarcaEditar();
-                llenarSelectClienteEditar();
+            const botonEditar = document.createElement('button');
+            botonEditar.textContent = 'Editar';
+            botonEditar.classList= 'btn btn-primary';
+            botonEditar.style = "margin: 0px 5px;"
+            botonEditar.setAttribute("data-bs-target", "#modalEditarVehiculo");
+            botonEditar.setAttribute("data-bs-toggle", "modal");
+            botonEditar.addEventListener('click',async function () {
+                idEditarVehiculo = vehiculo.id;
+                await llenarSelectMarcaEditar();
+                await llenarSelectClienteEditar();
             });
 
             const botonEliminar = document.createElement('button');
@@ -139,10 +207,9 @@ async function llenarTablaIf(data){
             botonVer.setAttribute("data-bs-target", "#modalEditarVehiculo");
             botonVer.setAttribute("data-bs-toggle", "modal");
             botonVer.addEventListener('click', function () {
-                editarVehiculoId = vehiculo.id;
             });
 
-            columnaOpciones.appendChild(botonModificar);
+            columnaOpciones.appendChild(botonEditar);
             columnaOpciones.appendChild(botonEliminar);
             columnaOpciones.appendChild(botonVer);
 
@@ -154,13 +221,12 @@ async function llenarTablaIf(data){
             fila.appendChild(columnaOpciones);
 
             tbody.appendChild(fila);
-        }else{
-            alert("no se encontro vehiculo con patente : " + patente);
         }
 }
 
-// Sin filtros ---------------------------------------------------------------
-var editarVehiculoId;
+// ----------------------------------------------------------------------------
+// Buscar sin filtro ----------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 async function getVehiculos() {
     try {
@@ -175,7 +241,9 @@ async function getVehiculos() {
     }
 }
 
-// filtrar por Patente ----------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// Buscar por patente -------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 async function getVehiculoXPatente() {
     var patente = formatearString(inputTablaVehiculo.value);
@@ -193,7 +261,9 @@ async function getVehiculoXPatente() {
     }
 }
 
-// filtrar por Marca ----------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// Buscar por marca------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 async function getVehiculoXMarca() {
     try {
@@ -210,7 +280,9 @@ async function getVehiculoXMarca() {
     }
 }
 
-// filtrar por Cliente ----------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// Buscar por cliente ---------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 async function getVehiculoXCliente() {
     try {
@@ -226,13 +298,9 @@ async function getVehiculoXCliente() {
     }
 }
 
-//Leer opcion de filtrado y buscar -------------------------------------
-
-const btnBuscar = document.getElementById("btn-Buscar");  //Contiene el boton buscar
-const selectFiltrar = document.getElementById("selectFiltrar"); //contiene el select de filtrar
-const selectTablaVehiculo = document.getElementById("select-TablaVehiculo"); //Contiene el select arriba de la tabla
-const inputTablaVehiculo = document.getElementById("input-TablaVehiculo");
-
+// ----------------------------------------------------------------------------
+// Seleccion de filtrado ------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 selectFiltrar.addEventListener("change", async () => { //Carga el select si se selecciono un filtrado
 
@@ -242,11 +310,7 @@ selectFiltrar.addEventListener("change", async () => { //Carga el select si se s
         selectTablaVehiculo.disabled = false;
         selectTablaVehiculo.value = "";
         try { //carga el select con marcas
-            const response = await fetch("http://localhost:8080/marca/list"); // Realiza una petición fetch
-            if (!response.ok) { //Si la peticion tubo un error entonces
-                throw new Error("Error en la petición");  //Muestra el mensaje en consola
-            }
-            const dataMarcas = await response.json(); //Guarda los datos de la peticion en una varible
+            const dataMarcas = await listarMarca();
             selectTablaVehiculo.innerHTML = ""
             // Agrega la primera opción "Seleccionar una marca"
             const opcionSeleccionar = document.createElement("option");
@@ -274,11 +338,7 @@ selectFiltrar.addEventListener("change", async () => { //Carga el select si se s
         selectTablaVehiculo.disabled = false;
         selectTablaVehiculo.value = "";
         try {
-            const response = await fetch("http://localhost:8080/cliente/list"); // Realiza una petición fetch
-            if (!response.ok) { //Si la peticion tubo un error entonces
-                throw new Error("Error en la petición");  //Muestra el mensaje en consola
-            }
-            const dataCliente = await response.json(); //Guarda los datos de la peticion en una varible
+            const dataCliente = await listarCliente();
             selectTablaVehiculo.innerHTML = "";
             // Agrega la primera opción "Seleccionar una marca"
             const opcionSeleccionarCliente = document.createElement("option");
@@ -289,20 +349,24 @@ selectFiltrar.addEventListener("change", async () => { //Carga el select si se s
             dataCliente.forEach((cliente) => { // Agrega las nuevas opciones 
                 const opcion = document.createElement("option");
                 opcion.value = cliente.id;
-                opcion.textContent = cliente.dni + " "+ cliente.nombre + " " + cliente.apellido;
+                opcion.textContent = cliente.dni + ", "+ cliente.nombre + ", " + cliente.apellido;
                 selectTablaVehiculo.appendChild(opcion); //con appendChild() se agrega el elemento al select
             });
         } catch (error) {
-            console.error("Error al cargar las marcas: " + error);
+            console.error("Error al cargar los clientes: " + error);
         }
         
     }else{
         selectTablaVehiculo.disabled = true; //Desactiva el select
         selectTablaVehiculo.value = "";
     }
-});
+}); 
 
-//Evento del boton buscar
+
+// ----------------------------------------------------------------------------
+// Evento boton Buscar --------------------------------------------------------
+// ----------------------------------------------------------------------------
+
 btnBuscar.addEventListener("click", async function(event){
     if(selectFiltrar.value === "1"){
         event.preventDefault();
@@ -320,29 +384,21 @@ btnBuscar.addEventListener("click", async function(event){
 });
 
 
+// --------------------------------------------------------------------------------------------------------------------------------------------
+// Agregar ------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------
+
 // ----------------------------------------------------------------------------
-// Agregar --------------------------------------------------------------------
+// Evento llenar Select Marca -------------------------------------------------
 // ----------------------------------------------------------------------------
 
-const btnCargarModalAgrega = document.getElementById("btn-CargarModalAgregaVehiculo");
-const btnAgregaVehiculo = document.getElementById("btn-AgregarVehiculo");
-const selectAgregarMarca = document.getElementById("select-AgregarMarcaVehiculo");
-const selectAgregarModelo = document.getElementById("select-AgregarModeloVehiculo");
-const selectAgregarCliente = document.getElementById("select-AgregarClienteVehiculo");
-
-//Llena el select con Marcas
 async function llenarSelectMarcaAgregar(){
+    const dataMarcas = await listarMarca();
+    selectAgregarMarca.innerHTML = ""; 
     try {
-        const response = await fetch("http://localhost:8080/marca/list"); // Realiza una petición fetch
-        if (!response.ok) { //Si la peticion tubo un error entonces
-            throw new Error("Error en la petición");  //Muestra el mensaje en consola
-        }
-        const dataMarcas = await response.json(); //Guarda los datos de la peticion en una varible
-        selectAgregarMarca.innerHTML = "";
-        // Agrega la primera opción "Seleccionar una marca"
-        const opcionSeleccionarMarca = document.createElement("option");
+        const opcionSeleccionarMarca = document.createElement("option");// crea un elemnto option
         opcionSeleccionarMarca.value = ""; // Puedes asignar un valor vacío o un valor especial
-        opcionSeleccionarMarca.textContent = "Seleccionar una marca";
+        opcionSeleccionarMarca.textContent = "Seleccionar una marca";// Agrega la primera opción "Seleccionar una marca"
         selectAgregarMarca.appendChild(opcionSeleccionarMarca);
 
         dataMarcas.forEach((marca) => { // Agrega las nuevas opciones 
@@ -355,15 +411,16 @@ async function llenarSelectMarcaAgregar(){
         console.error("Error al cargar las marcas: " + error);
     }
 };
-//Una vez que se selecciono una marca se cargan los modelos de esa marca
+
+
+// ----------------------------------------------------------------------------
+// Evento llenar Select Modelos -----------------------------------------------
+// ----------------------------------------------------------------------------
+
 selectAgregarMarca.addEventListener("change",async function(){
     selectAgregarModelo.disabled = false;
     try {
-        const response = await fetch(`http://localhost:8080/modelo/listByMarca/${selectAgregarMarca.value}`); // Realiza una petición fetch
-        if (!response.ok) { //Si la peticion tubo un error entonces
-            throw new Error("Error en la petición");  //Muestra el mensaje en consola
-        }
-        const dataModelos = await response.json(); //Guarda los datos de la peticion en una varible
+        const dataModelos = await listarModelo(selectAgregarMarca.value)
         selectAgregarModelo.innerHTML = "";
         // Agrega la primera opción "Seleccionar una marca"
         const opcionSeleccionarModelo = document.createElement("option");
@@ -378,18 +435,18 @@ selectAgregarMarca.addEventListener("change",async function(){
             selectAgregarModelo.appendChild(opcion); //con appendChild() se agrega el elemento al select
         });
     } catch (error) {
-        console.error("Error al cargar las marcas: " + error);
+        console.error("Error al cargar los modelos: " + error);
     }
 })
 
-//Cargan los clientes
+
+// ----------------------------------------------------------------------------
+// Evento llenar Select cliente ----------------------------------------------
+// ----------------------------------------------------------------------------
+
 async function llenarSelectClienteAgregar(){
     try {
-        const response = await fetch("http://localhost:8080/cliente/list"); // Realiza una petición fetch
-        if (!response.ok) { //Si la peticion tubo un error entonces
-            throw new Error("Error en la petición");  //Muestra el mensaje en consola
-        }
-        const dataCliente = await response.json(); //Guarda los datos de la peticion en una varible
+        const dataCliente = await listarCliente();
         selectAgregarCliente.innerHTML = "";
         // Agrega la primera opción "Seleccionar una marca"
         const opcionSeleccionarCliente = document.createElement("option");
@@ -404,39 +461,45 @@ async function llenarSelectClienteAgregar(){
             selectAgregarCliente.appendChild(opcion); //con appendChild() se agrega el elemento al select
         });
     } catch (error) {
-        console.error("Error al cargar las marcas: " + error);
+        console.error("Error al cargar los clientes: " + error);
     }
 };
 
-//Opcion agregar nuevo vehiculo
-btnCargarModalAgrega.addEventListener("click", function(){
-    llenarSelectMarcaAgregar();
-    llenarSelectClienteAgregar();
+
+// ----------------------------------------------------------------------------
+// Abre el modal para agregar -------------------------------------------------
+// ----------------------------------------------------------------------------
+
+btnCargarModalAgrega.addEventListener("click",async function(){
+    await llenarSelectMarcaAgregar();
+    await llenarSelectClienteAgregar();
 })
 
-//Crea un nuevo modelo
-function setVehiculo(){
 
-    const pate = document.getElementById("AgregarNombrePatente").value;
-    const patente = formatearString(pate);
-    const modelo = document.getElementById("select-AgregarModeloVehiculo").value;
-    const cliente = document.getElementById("select-AgregarClienteVehiculo").value;
-    const año = document.getElementById("AgregarAñoVehiculo").value;
-    const kilometraje = document.getElementById("AgregarkilometrajeVehiculo").value;
+// ----------------------------------------------------------------------------
+// Funcion Agregar vehiculo --------------------------------------------------
+// ----------------------------------------------------------------------------
 
-    if(patente.trim() === ""){
-        alert("El nombre de la marca no puede estar vacio");
+async function setVehiculo(){
+    const patenteNuevo = inputAgregarPatente.value;
+    const añoNuevo = inputAgregarAño.value;
+    const kilometrajeNuevo = inputAgregarKilometraje.value;
+    const clienteNuevo = selectAgregarCliente.value;
+    const modeloNuevo = selectAgregarModelo.value;
+    const marcaNuevo = selectAgregarMarca.value;
+    if(!patenteNuevo.trim() || !añoNuevo.trim() || !kilometrajeNuevo.trim() || !clienteNuevo || !modeloNuevo || !marcaNuevo){
+        alert("No puede tener campos vacios");
     }else{
         var nuevoVehiculoData = {
             cliente: {
-                id: cliente
+                id: clienteNuevo
             },
             modelo: {
-                id: modelo
+                id: modeloNuevo
             },
-            año : año,
-            kilometraje : kilometraje,
-            patente: patente
+            año : añoNuevo,
+            kilometraje : kilometrajeNuevo,
+            patente: formatearString(patenteNuevo)
         }
         
         fetch(url + "/create", {
@@ -453,6 +516,8 @@ function setVehiculo(){
                 var modal = new bootstrap.Modal(document.getElementById('modalVehiculo'));
                 modal.hide();
     
+            }else if(response.status === 4000){ 
+                alert("Ya existe un vehiculo con esa patente");
             } else {
                 console.log("Respuesta de red OK pero respuesta HTTP no OK");
             }
@@ -464,15 +529,15 @@ function setVehiculo(){
 }
 
 
-btnAgregaVehiculo.addEventListener("click", function(){
-    setVehiculo();
+btnAgregaVehiculo.addEventListener("click",async function(){
+    await setVehiculo();
 })
 
-// ----------------------------------------------------------------------------
-// Eliminar --------------------------------------------------------------------
-// ----------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------------------
+// Eliminar ------------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------------------
 
-function eliminarVehiculo(id){
+async function eliminarVehiculo(id){
     // Realiza la solicitud DELETE a la URL con el ID como parámetro
     fetch(url+`/delete/${id}`, {
         method: "DELETE"
@@ -489,23 +554,17 @@ function eliminarVehiculo(id){
     });
 }
 
+// ---------------------------------------------------------------------------------------------------------------------------------------------
+// Editar --------------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------------------
+
 // ----------------------------------------------------------------------------
-// Editar --------------------------------------------------------------------
+// Evento llenar Select Marca -------------------------------------------------
 // ----------------------------------------------------------------------------
 
-const btnEditarVehiculo = document.getElementById("btn-EditarVehiculo");
-const selectEditarMarca = document.getElementById("select-EditarMarcaVehiculo");
-const selectEditarModelo = document.getElementById("select-EditarModeloVehiculo");
-const selectEditarCliente = document.getElementById("select-EditarClienteVehiculo");
-
-//Llena el select con Marcas
 async function llenarSelectMarcaEditar(){
     try {
-        const response = await fetch("http://localhost:8080/marca/list"); // Realiza una petición fetch
-        if (!response.ok) { //Si la peticion tubo un error entonces
-            throw new Error("Error en la petición");  //Muestra el mensaje en consola
-        }
-        const dataMarcas = await response.json(); //Guarda los datos de la peticion en una varible
+        const dataMarcas = await listarMarca();
         selectEditarMarca.innerHTML = "";
         // Agrega la primera opción "Seleccionar una marca"
         const opcionSeleccionarMarca = document.createElement("option");
@@ -523,15 +582,15 @@ async function llenarSelectMarcaEditar(){
         console.error("Error al cargar las marcas: " + error);
     }
 };
-//Una vez que se selecciono una marca se cargan los modelos de esa marca
+
+// ----------------------------------------------------------------------------
+// Evento llenar Select Modelo ------------------------------------------------
+// ----------------------------------------------------------------------------
+
 selectEditarMarca.addEventListener("change",async function(){
     selectEditarModelo.disabled = false;
     try {
-        const response = await fetch(`http://localhost:8080/modelo/listByMarca/${selectEditarMarca.value}`); // Realiza una petición fetch
-        if (!response.ok) { //Si la peticion tubo un error entonces
-            throw new Error("Error en la petición");  //Muestra el mensaje en consola
-        }
-        const dataModelos = await response.json(); //Guarda los datos de la peticion en una varible
+        const dataModelos = await listarModelo(selectEditarMarca.value) //Guarda los datos de la peticion en una varible
         selectEditarModelo.innerHTML = "";
         // Agrega la primera opción "Seleccionar una marca"
         const opcionSeleccionarModelo = document.createElement("option");
@@ -553,11 +612,7 @@ selectEditarMarca.addEventListener("change",async function(){
 //Cargan los clientes
 async function llenarSelectClienteEditar(){
     try {
-        const response = await fetch("http://localhost:8080/cliente/list"); // Realiza una petición fetch
-        if (!response.ok) { //Si la peticion tubo un error entonces
-            throw new Error("Error en la petición");  //Muestra el mensaje en consola
-        }
-        const dataCliente = await response.json(); //Guarda los datos de la peticion en una varible
+        const dataCliente = await listarCliente(); //Guarda los datos de la peticion en una varible
         selectEditarCliente.innerHTML = "";
         // Agrega la primera opción "Seleccionar una marca"
         const opcionSeleccionarCliente = document.createElement("option");
@@ -577,31 +632,28 @@ async function llenarSelectClienteEditar(){
 };
 
 //Editar un Vehiculo
-function editVehiculo(){
-
-    const pate = document.getElementById("EditarNombrePatente").value;
-    const patente = formatearString(pate);
-    const modelo = document.getElementById("select-EditarModeloVehiculo").value;
-    const cliente = document.getElementById("select-EditarClienteVehiculo").value;
-    const año = document.getElementById("EditarAñoVehiculo").value;
-    const kilometraje = document.getElementById("EditarkilometrajeVehiculo").value;
-
-    if(patente.trim() === ""){
-        alert("El nombre de la marca no puede estar vacio");
+async function editVehiculo(){
+    const patenteEditar = inputEditarPatente.value;
+    const añoEditar = inputEditarAño.value;
+    const kilometrajeEditar = inputEditarKilometraje.value;
+    const clienteEditar = selectEditarCliente.value;
+    const modeloEditar = selectEditarModelo.value;
+    if(!patenteEditar.trim() || !añoEditar.trim() || !kilometrajeEditar.trim() || !clienteEditar || !modeloEditar){
+        alert("No puede contener campos vacios");
     }else{
         var editarVehiculoData = {
             cliente: {
-                id: cliente
+                id: clienteEditar
             },
             modelo: {
-                id: modelo
+                id: modeloEditar
             },
-            año : año,
-            kilometraje : kilometraje,
-            patente: patente
+            año : añoEditar,
+            kilometraje : kilometrajeEditar,
+            patente: formatearString(patenteEditar)
         }
         
-        fetch(url+`/update/${editarVehiculoId}`, {
+        fetch(url+`/update/${idEditarVehiculo}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -615,6 +667,8 @@ function editVehiculo(){
                 var modal = new bootstrap.Modal(document.getElementById('modalEditarVehiculo'));
                 modal.hide();
     
+            }else if(response.status === 4000){ 
+                alert("Ya existe un vehiculo con esa patente");
             } else {
                 console.log("Respuesta de red OK pero respuesta HTTP no OK");
             }
@@ -625,6 +679,6 @@ function editVehiculo(){
     }
 }
 
-btnEditarVehiculo.addEventListener("click", function(){
-    editVehiculo();
+btnEditarVehiculo.addEventListener("click",async function(){
+    await editVehiculo();
 })
