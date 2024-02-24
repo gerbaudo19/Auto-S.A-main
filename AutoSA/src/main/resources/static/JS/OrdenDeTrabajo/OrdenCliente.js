@@ -247,7 +247,7 @@ btnClienteLimpiar.addEventListener("click", function(){
 })
 
 //----------------------------------------------------------------------------------------------------------------------
-// Verificar ------------------------------------------------------------------------------------------------
+// Verificar -----------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
 export async function verificarCliente(){
     const nombre = inputClienteNombre.value;
@@ -266,21 +266,22 @@ export async function verificarCliente(){
             if (!responseConsulta.ok) {
                 throw new Error(`Error al cargar los Clientes: ${responseConsulta.status}`);
             }
-            const clienteConsulta = await responseConsulta.json();
-            if (clienteConsulta === null) {
-              console.log("El cliente no existe");
-              await setCliente(nombre, apellido, dni, telefono, email, domicilio);
-              console.log("Se creo el cliente");
-              const responsClienteAux = await fetch(url+`/listByDni/${dni}`)
-              clienteCargado = await responsClienteAux.json();
-              return clienteCargado;
+            const dataClienteConsulta = await responseConsulta.json();
+            if (dataClienteConsulta === null) {
+                console.log("El cliente no existe");
+                await setCliente(nombre, apellido, dni, telefono, email, domicilio);
+                console.log("Se creo el cliente");
+                const responsClienteAux = await fetch(url+`/listByDni/${dni}`);
+                clienteCargado = await responsClienteAux.json();
+                console.log("cliente encontrado con dni " + clienteCargado.dni+ " e id " + clienteCargado.id);
+                return clienteCargado.id;
             }else{
-              clienteCargado = clienteConsulta;
-              console.log("cliente encontrado con dni " + clienteCargado.dni);
-              return clienteCargado;
+                clienteCargado = dataClienteConsulta;
+                console.log("cliente encontrado con dni " + clienteCargado.dni);
+                return clienteCargado.id;
             }
         } catch (error) {
-         console.error('Error al cargar los Tecnicos:', error);
+            console.error('Error al cargar los clientes:', error);
         }
     }
 }
@@ -295,7 +296,7 @@ async function setCliente(nombre, apellido, dni, telefono, email, domicilio){
         domicilio : formatearString(domicilio)
     }
     
-    fetch(url + "/create", {
+    await fetch(url + "/create", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

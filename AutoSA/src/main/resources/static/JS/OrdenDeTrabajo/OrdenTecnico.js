@@ -248,7 +248,7 @@ export async function setPersonalTrabajo(ordenDeTrabajoid){
         })
         .then(function (response) {
             if (response.ok) {
-                console.log("Orden de trabjo creado con exito");
+                console.log("Personl Orden de trabjo creado con exito");
             } else if(response.status === 400){
                 console.log("Respuesta de red OK pero respuesta HTTP no OK");
             }

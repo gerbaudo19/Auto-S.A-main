@@ -28,11 +28,13 @@ export function formatearString(textoEntrada) {
 
 async function setMarca(){
     const nombreNuevaMarca = document.getElementById("nombreNuevaMarca").value;
-    if(!nombreNuevaMarca.trim()){
-        alert("El nombre de la marca no puede estar vacio");
+    const impuestoNuevaMarca = document.getElementById("impuestoNuevaMarca").value;
+    if(!nombreNuevaMarca.trim() || !impuestoNuevaMarca.trim()){
+        alert("No puede existir campos vacios");
     }else{
         var nuevaMarcaData = {
-            nombre: formatearString(nombreNuevaMarca)
+            nombre: formatearString(nombreNuevaMarca),
+            impuesto: impuestoNuevaMarca
         }
         
         await fetch(url + "/create", {

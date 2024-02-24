@@ -1,7 +1,7 @@
 package com.ProgramacionAvanzada.AutoSA.entity;
 
 
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,10 +16,10 @@ public class Cliente extends Persona{
     //@OneToMany(mappedBy = "cliente")
     //@JsonBackReference
     //private List<Vehiculo> vehiculo;
-    private LocalDate fecha;
+    //private LocalDate fecha;
 
-    public Cliente(String nombre, String apellido, String dni, String telefono, String email, String domicilio, LocalDate fecha){
+    public Cliente(String nombre, String apellido, String dni, String telefono, String email, String domicilio/*LocalDate fecha*/){
         super(nombre, apellido, dni, telefono, email, domicilio);
-        this.fecha = fecha;
+        //this.fecha = fecha;
     }
 }

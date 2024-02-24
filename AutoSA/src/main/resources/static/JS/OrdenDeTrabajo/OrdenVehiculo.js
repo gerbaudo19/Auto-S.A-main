@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async function(){
 // Evento llenar Select Marca -------------------------------------------------
 // ----------------------------------------------------------------------------
 
-async function llenarSelectMarca(){
+export async function llenarSelectMarca(){
     const response = await fetch("http://localhost:8080/marca/list"); // Realiza una petición fetch
     if (!response.ok) { //Si la peticion tubo un error entonces
         throw new Error("Error en la petición");  //Muestra el mensaje en consola
@@ -116,7 +116,7 @@ async function llenarSelectMarca(){
 // ----------------------------------------------------------------------------
 // Evento llenar Select Modelos -----------------------------------------------
 // ----------------------------------------------------------------------------
-async function llenarSelectModelo(marcaModelo){
+export async function llenarSelectModelo(marcaModelo){
     selectVehiculoModelo.disabled = false;
     try {
         const response = await fetch(`http://localhost:8080/modelo/listByMarca/${marcaModelo}`); // Realiza una petición fetch
@@ -187,11 +187,11 @@ export async function verificarVehiculo(cliente){
               await setVehiculo(patente, año, kilometraje,cliente, modelo);
               const responsVehiculoaux = await fetch(url+`/listByPatente/${formatearString(patente)}`);
               vehiculoCargado = await responsVehiculoaux.json();
-              return vehiculoCargado;
+              return vehiculoCargado.id;
             }else{
                 vehiculoCargado = vehiculoConsulta;
               console.log("Vehiculo encontrado con patente " + vehiculoCargado.patente);
-              return vehiculoCargado;
+              return vehiculoCargado.id;
             }
         } catch (error) {
          console.error('Error al cargar los Tecnicos:', error);

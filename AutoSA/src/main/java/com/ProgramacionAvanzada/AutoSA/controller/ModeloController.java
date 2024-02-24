@@ -87,7 +87,7 @@ public class ModeloController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody ModeloDto modeloDto){
+    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody ModeloDto modeloDto){
         String nombreModeloEditar = modeloDto.getNombre();
         if(!modeloService.existsById(id) || modeloService.existsByNombre(nombreModeloEditar)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -102,7 +102,7 @@ public class ModeloController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable int id){
+    public ResponseEntity<?> delete(@PathVariable("id")int id){
 
         if(!modeloService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

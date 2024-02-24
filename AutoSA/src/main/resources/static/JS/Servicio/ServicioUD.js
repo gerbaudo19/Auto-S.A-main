@@ -30,12 +30,14 @@ export function deleteServicio(id){
 export async function editServicio(editarServicioId){
     const nombreEditarServicio = document.getElementById("input-NombreEditarServicio").value;
     const descripcionEditarServicio = document.getElementById("input-DescripcionEditarServicio").value;
-    if(!nombreEditarServicio.trim() || !descripcionEditarServicio.trim()){
+    const precioEditarServicio = document.getElementById("input-precioEditarServicio").value;
+    if(!nombreEditarServicio.trim() || !descripcionEditarServicio.trim() || !precioEditarServicio.trim()){
         alert("Revise que los campós no esten vacio");
     }else{
         var editarServicioData = {
            nombre: formatearString(nombreEditarServicio),
-            descripcion : descripcionEditarServicio
+           precio: precioEditarServicio,
+        descripcion : descripcionEditarServicio
         }
         await fetch(url+`/update/${editarServicioId}`, {
             method: "PUT",

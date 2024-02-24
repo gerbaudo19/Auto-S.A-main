@@ -19,6 +19,7 @@ import com.ProgramacionAvanzada.AutoSA.dto.DetalleOrdenTrabajoDto;
 import com.ProgramacionAvanzada.AutoSA.entity.DetalleOrdenTrabajo;
 import com.ProgramacionAvanzada.AutoSA.service.DetalleOrdenTrabajoService;
 
+
 @RestController
 @RequestMapping("/detalleOrdenTrabajo")
 @CrossOrigin("*")
@@ -64,4 +65,16 @@ public class DetalleOrdenTrabajoController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/listByOrdentrabajoId/{ordenTrabajoId}")    
+    public ResponseEntity<List<DetalleOrdenTrabajo>> findByOrdenDeTrabajoId(@PathVariable int ordenTrabajoId) {
+        try {
+            List<DetalleOrdenTrabajo> detalleOrdenTrabajos = detalleOrdenTrabajoService.findByOrdenDeTrabajoId(ordenTrabajoId);
+            return new ResponseEntity<>(detalleOrdenTrabajos, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    
 }

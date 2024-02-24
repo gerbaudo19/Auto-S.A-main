@@ -20,6 +20,10 @@ public class PersonalDeTrabajoService {
         return personalDeTrabajoRepository.findAll();
     }
 
+    public List<PersonalDeTrabajo> findByOrdenDeTrabajoId(int ordenDeTrabajoId){
+        return personalDeTrabajoRepository.findByOrdenDeTrabajoId(ordenDeTrabajoId);
+    }
+
     public void save(PersonalDeTrabajo personalDeTrabajo){
         personalDeTrabajoRepository.save(personalDeTrabajo);
     }

@@ -16,10 +16,6 @@ public class OrdenDeTrabajoService {
     @Autowired
     OrdenDeTrabajoRepository ordenDeTrabajoRepository;
 
-    public List<OrdenDeTrabajo> findAll(){
-        return ordenDeTrabajoRepository.findAll();
-    }
-
     public void save(OrdenDeTrabajo ordenDeTrabajo){
         ordenDeTrabajoRepository.save(ordenDeTrabajo);
     }
@@ -28,6 +24,10 @@ public class OrdenDeTrabajoService {
         ordenDeTrabajoRepository.deleteById(id);
     }
 
+    public List<OrdenDeTrabajo> findAll(){
+        return ordenDeTrabajoRepository.findAll();
+    }
+    
     public Optional<OrdenDeTrabajo> findById(int id){
         return ordenDeTrabajoRepository.findById(id);
     }

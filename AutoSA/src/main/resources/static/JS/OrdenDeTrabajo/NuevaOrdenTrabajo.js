@@ -7,7 +7,8 @@ import { verificarVehiculo } from "./OrdenVehiculo.js";
 import { setPersonalTrabajo } from "./OrdenTecnico.js";
 import { setDetalleOrden } from "./OrdenServicio.js";
 const inputFecha = document.getElementById("fecha");
-let fechaActual = "";
+let fechaActual;
+let horaActual;
 const inputHora = document.getElementById("hora");
 const texTareaObservacion = document.getElementById("textarea-observacion");
 const btnSetOrden = document.getElementById("btn-SetOrdenDeTrabajo");
@@ -28,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function(){
     // Obtiene la hora actual en formato HH:MM
     const horas = CargarFecha.getHours().toString().padStart(2, '0');
     const minutos = CargarFecha.getMinutes().toString().padStart(2, '0');
-    const horaActual = `${horas}:${minutos}`;
+    horaActual = `${horas}:${minutos}`;
     inputHora.value = horaActual; // Establece el valor del input con la hora actual
 });
 
@@ -54,16 +55,15 @@ function formatearString(textoEntrada) {
 //----------------------------------------------------------------------------------------------------------------------
 
 btnSetOrden.addEventListener("click", async function(){
-    console.log(fechaActual, inputFecha.value, texTareaObservacion.value );
-   const clienteCargar = await verificarCliente();
-    console.log("el cliente a cargar es " + clienteCargar.id);
-    const vehiculoCargar = await verificarVehiculo(clienteCargar.id);
-    console.log("El vehiculo a cargar es " + vehiculoCargar.patente);
-    await setOrdenTrabajo(vehiculoCargar);
+    const idClienteCargar = await verificarCliente();
+    const idVehiculoCargar = await verificarVehiculo(idClienteCargar);
+    console.log("Vehiculo " + idVehiculoCargar + " fecha " + fechaActual + " Hora " +horaActual + " Descripcion " + texTareaObservacion.value);
+    await setOrdenTrabajo(idVehiculoCargar);
     const ultimaordenId = await consultaUltimaOrden();
     console.log("La ultima orden tiene id " + ultimaordenId);
     setPersonalTrabajo(ultimaordenId);
     setDetalleOrden(ultimaordenId);
+    window.location.href = "./BuscarOrden.html";
 });
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -71,21 +71,20 @@ btnSetOrden.addEventListener("click", async function(){
 //----------------------------------------------------------------------------------------------------------------------
 
 async function setOrdenTrabajo(vehiculoCargar){
-    if(inputFecha.value > fechaActual){
-        alert("La fecha ingresada no es valida")
-    }else if(!inputFecha.value || !inputHora.value || !texTareaObservacion.value){
+    const descripcion = texTareaObservacion.value;
+    if(!inputFecha.value || !inputHora.value || !descripcion){
         alert("Hay campos vacios");
     }else{
         var nuevaOrdenDeTrabajo = {
-            vehiculo: {
-                id: vehiculoCargar.id
-            },
+            observacion: descripcion,
+            fechaCreacion : fechaActual,
+            horaCreacion : horaActual,
             estado: {
                 id: 1
             },
-            fechaCreacion : inputFecha.value,
-            horaCreacion : inputHora.value,
-            observacion: texTareaObservacion.value
+            vehiculo: {
+                id: vehiculoCargar
+            }
         }
         
         await fetch(urlOrden + "/create", {
@@ -120,6 +119,6 @@ async function consultaUltimaOrden(){
         console.log("Hubo problema con la consulta de la ultima orden");
     }else{
         const ultimaOrden = await response.json();
-        return ultimaOrden.id;
+        return ultimaOrden. id;
     }
 }

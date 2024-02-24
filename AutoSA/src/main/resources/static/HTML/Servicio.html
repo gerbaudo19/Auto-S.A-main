@@ -20,17 +20,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Ordenes de Trabajo
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="./NuevaOrden.html">Nueva Orden</a></li>
-                <li><a class="dropdown-item" href="./BuscarOrden.html">Administrar Orden</a></li>
-              </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="./BuscarOrden.html">Orden de trabajo</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Configuracion</a>
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administracion de datos</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="./Tecnico.html">Tecnico</a></li>
                 <li><a class="dropdown-item" href="./Servicio.html">Servicios</a></li>
@@ -82,6 +76,11 @@
                               <input type="text" class="form-control" id="nombreNuevoServicio" placeholder="nombre">
                           </div>
 
+                          <div class="mb-3">
+                            <label for="precioNuevoServicio" class="form-label">Precio</label>
+                            <input type="number" class="form-control" id="precioNuevoServicio" placeholder="precio">
+                          </div>
+
                           <div class="card mb-3">
                             <div class="card-body">
                               <div class="mb-3">
@@ -118,6 +117,11 @@
                           <div class="mb-3">
                               <label for="nombreEditarServicio" class="form-label">Nombre</label>
                               <input type="text" class="form-control" id="input-NombreEditarServicio" placeholder="nombre">
+                          </div>
+
+                          <div class="mb-3">
+                            <label for="precioEditarServicio" class="form-label">Precio</label>
+                            <input type="number" class="form-control" id="input-precioEditarServicio" placeholder="precio">
                           </div>
 
                           <div class="card mb-3">
@@ -161,6 +165,7 @@
                       <th scope="col">ID</th>
                       <th scope="col">Nombre</th>
                       <th scope="col">Descripcion</th>
+                      <th scope="col">Precio sin Impuesto</th>
                       <th scope="col">Acciones</th>
                   </tr>
               </thead>

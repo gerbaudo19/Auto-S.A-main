@@ -20,17 +20,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Ordenes de Trabajo
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="./NuevaOrden.html">Nueva Orden</a></li>
-                <li><a class="dropdown-item" href="./BuscarOrden.html">Administrar Orden</a></li>
-              </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="./BuscarOrden.html">Orden de trabajo</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Configuracion</a>
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administracion de datos</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="./Tecnico.html">Tecnico</a></li>
                 <li><a class="dropdown-item" href="./Servicio.html">Servicios</a></li>
@@ -55,21 +49,28 @@
               <h2>Ordenes de trabajos</h2>
             </div>
 
+            <div class="row">
+              <h4 class="col">Nueva orden de trabajo</h4>
+              <div class="col-8">
+                <a class="btn btn-primary" href="./NuevaOrden.html" role="button">+</a>
+              </div>
+            </div>
+            </div>
             <!-- Opciones para buscar y filtrar Tecnico -->
             <div class="mb-3">
               <div class="row">
                   <div class="col" style="margin: 0px 15px;">
                       <form class="d-flex" role="search" id="formBusqueda">
-                          <button  class="btn btn-outline-primary" type="submit">Buscar</button>
+                          <button  class="btn btn-outline-primary" type="button" id="btn-buscarOrden">Buscar</button>
                       </form>
                   </div>
                   <div class="col-9">
                     <form class="d-flex" role="search" id="formBusqueda">
-                        <input class="form-control me-2" id="inputBusqueda" type="search" placeholder="Ingrese el dato" aria-label="Search">
+                        <input class="form-control me-2" id="input-BuscarOrden" type="search" placeholder="Ingrese el dato" aria-label="Search">
                     </form>
                 </div>
                   <div class="col" style="margin: 0px 15px;">
-                    <select class="form-select" id="selectEstado" aria-label="Default select example" onchange="getInspeccionByEstado()">
+                    <select class="form-select" id="select-FiltrarBusqueda" aria-label="Default select example" onchange="getInspeccionByEstado()">
                         <option selected>Filtrar</option>
                         <option value="1">Tecnico</option>
                         <option value="2">Estado</option>
@@ -79,12 +80,12 @@
               </div>
           </div>
 
-            <!-- Tabla para cargar Tecnico -->
-            <table class="table" id="tablaTecnico">
+            <!-- Tabla para cargar Ordenes de trabajo -->
+            <table class="table" id="tabla-OrdenTrabajo">
               <thead>
                   <tr>
-                      <th scope="col">ID</th>
-                      <th scope="col">Pat.Vehiculo</th>
+                      <th scope="col">NroOrden</th>
+                      <th scope="col">Patente</th>
                       <th scope="col">Marca</th>
                       <th scope="col">Modelo</th>
                       <th scope="col">Fecha</th>
@@ -100,5 +101,7 @@
         </div>
       </div>
   </main>
+
+  <script type="module" src="../JS/OrdenDeTrabajo/BuscarOrden.js"></script>
 </body>
 </html>

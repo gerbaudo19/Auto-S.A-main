@@ -27,14 +27,6 @@ public class OrdenDeTrabajoController {
     @Autowired
     OrdenDeTrabajoService ordenDeTrabajoService;
 
-    @GetMapping("/list")
-    public ResponseEntity<List<OrdenDeTrabajo>> findAll(){
-
-        List<OrdenDeTrabajo> list = ordenDeTrabajoService.findAll();
-
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody OrdenDeTrabajoDto ordenDeTrabajoDto){
 
@@ -82,6 +74,15 @@ public class OrdenDeTrabajoController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<List<OrdenDeTrabajo>> findAll(){
+
+        List<OrdenDeTrabajo> list = ordenDeTrabajoService.findAll();
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    
     @GetMapping("/listById/{id}")
     public ResponseEntity<Optional<OrdenDeTrabajo>> findById(@PathVariable int id){
 

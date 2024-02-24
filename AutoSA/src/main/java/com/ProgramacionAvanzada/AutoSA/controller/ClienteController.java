@@ -1,6 +1,6 @@
 package com.ProgramacionAvanzada.AutoSA.controller;
 
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,8 +53,8 @@ public class ClienteController {
             clienteDto.getDni(),
             clienteDto.getTelefono(),
             clienteDto.getEmail(),
-            clienteDto.getDomicilio(),
-            clienteDto.getFecha()
+            clienteDto.getDomicilio()
+            //clienteDto.getFecha()
             );
 
             clienteService.save(clienteNuevo);
@@ -63,7 +63,7 @@ public class ClienteController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody ClienteDto clienteDto){
+    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody ClienteDto clienteDto){
         if(!clienteService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -76,7 +76,7 @@ public class ClienteController {
         cliente.setTelefono(clienteDto.getTelefono());
         cliente.setEmail(clienteDto.getEmail());
         cliente.setDomicilio(clienteDto.getDomicilio());;
-        cliente.setFecha(clienteDto.getFecha());
+        //cliente.setFecha(clienteDto.getFecha());
 
         clienteService.save(cliente);
 
@@ -84,7 +84,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable int id){
+    public ResponseEntity<?> delete(@PathVariable("id")int id){
 
         if(!clienteService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -103,9 +103,7 @@ public class ClienteController {
             return new ResponseEntity<>(cliente, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }  
-
-        
+        }          
     }
 
     @GetMapping("/listById/{id}")
@@ -130,7 +128,7 @@ public class ClienteController {
         }        
     }
 
-    @GetMapping("/listByFecha/{fecha}")
+  /*@GetMapping("/listByFecha/{fecha}")
     public ResponseEntity<List<Cliente>> findByFecha(@PathVariable LocalDate fecha){
 
         try {
@@ -139,5 +137,5 @@ public class ClienteController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }        
-    }
+    }*/
 }

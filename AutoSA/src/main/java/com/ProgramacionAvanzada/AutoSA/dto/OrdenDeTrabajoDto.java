@@ -6,7 +6,7 @@ import java.time.LocalTime;
 import com.ProgramacionAvanzada.AutoSA.entity.Estado;
 import com.ProgramacionAvanzada.AutoSA.entity.Vehiculo;
 
-import jakarta.persistence.Column;
+//import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -21,8 +21,8 @@ public class OrdenDeTrabajoDto{
     private String observacion;
     @NotNull
     private LocalDate fechaCreacion;
+    //@Column(columnDefinition = "TIME")
     @NotNull
-    @Column(columnDefinition = "TIME")
     private LocalTime horaCreacion;
     @NotNull
     private Estado estado;

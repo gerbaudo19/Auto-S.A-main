@@ -1,5 +1,6 @@
 package com.ProgramacionAvanzada.AutoSA.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +11,5 @@ import com.ProgramacionAvanzada.AutoSA.entity.DetalleOrdenTrabajo;
 @Repository
 public interface DetalleOrdenTrabajoRepository extends JpaRepository<DetalleOrdenTrabajo, Integer> {
     Optional<DetalleOrdenTrabajo> findById(int id);
+    List<DetalleOrdenTrabajo> findByOrdenDeTrabajoId (int ordenTrabajoId);
 }

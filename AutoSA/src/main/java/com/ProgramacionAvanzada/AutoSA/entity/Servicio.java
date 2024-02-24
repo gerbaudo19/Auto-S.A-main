@@ -30,9 +30,11 @@ public class Servicio {
 
     private String nombre;
     private String descripcion;
+    private int precio;
 
-    public Servicio(String nombre, String descripcion){
+    public Servicio(String nombre, String descripcion, int precio){
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.precio = precio;
     }
 }

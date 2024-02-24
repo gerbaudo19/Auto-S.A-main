@@ -29,17 +29,23 @@ export async function getServicios() {
         dataServicio.forEach(function (servicio) {
             const fila = document.createElement('tr');
             const columnaId = document.createElement('td');
+            columnaId.style.verticalAlign = "middle";
             const columnaNombre = document.createElement('td');
+            columnaNombre.style.verticalAlign = "middle";
             const columanDescripcion = document.createElement('textarea');
             columanDescripcion.style.width = "400px";
             columanDescripcion.style.height = "100px";
             columanDescripcion.setAttribute = ("form-control");
             columanDescripcion.disabled = "true";
+            const columnaPrecio = document.createElement('td');
+            columnaPrecio.style.verticalAlign = "middle";
             const columnaOpciones = document.createElement('td');
+            columnaOpciones.style.verticalAlign = "middle";
 
             columnaId.textContent = servicio.id;
             columnaNombre.textContent = servicio.nombre;
             columanDescripcion.textContent = servicio.descripcion;
+            columnaPrecio.textContent = "$" + servicio.precio;
 
             // Botones de modificar y eliminar
 
@@ -69,7 +75,8 @@ export async function getServicios() {
 
             fila.appendChild(columnaId);
             fila.appendChild(columnaNombre);
-            fila.appendChild(columanDescripcion)
+            fila.appendChild(columanDescripcion);
+            fila.appendChild(columnaPrecio);
             fila.appendChild(columnaOpciones);
 
             tbody.appendChild(fila);

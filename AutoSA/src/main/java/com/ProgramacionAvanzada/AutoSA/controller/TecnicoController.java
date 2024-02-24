@@ -64,7 +64,7 @@ public class TecnicoController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody TecnicoDto tecnicoDto){
+    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody TecnicoDto tecnicoDto){
         if(!tecnicoService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -84,7 +84,7 @@ public class TecnicoController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable int id){
+    public ResponseEntity<?> delete(@PathVariable("id")int id){
         if(!tecnicoService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

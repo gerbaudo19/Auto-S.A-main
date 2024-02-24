@@ -27,12 +27,14 @@ export function formatearString(textoEntrada) {
 
 async function setServicio(){
     const nombreNuevoServicio = document.getElementById("nombreNuevoServicio").value;
+    const precioNuevoServicio = document.getElementById("precioNuevoServicio").value;
     const descripcionNuevoServicio = document.getElementById("descripcionNuevoServicio").value;
     if(!nombreNuevoServicio.trim() || !descripcionNuevoServicio.trim()){
         alert("Revise que los campós no esten vacio");
     }else{
         var nuevoServicioData = {
             nombre: formatearString(nombreNuevoServicio),
+            precio : precioNuevoServicio,
             descripcion : descripcionNuevoServicio
         }
         

@@ -8,11 +8,13 @@ import { url, formatearString } from "./MarcaSet.js";
 // ---------------------------------------------------------------------------------------------------------------------
 export async function editMarca(editarMarcaId){
     const nombreEditarMarca = document.getElementById("nombreEditarMarca").value;
+    const impuestoEditarMarca = document.getElementById("impuestoEditarMarca").value;
     if(!nombreEditarMarca.trim()){
         alert("El nombre de la marca no puede estar vacio");
     }else{
         var editarMarcaData = {
-            nombre: formatearString(nombreEditarMarca)
+            nombre: formatearString(nombreEditarMarca),
+            impuesto: impuestoEditarMarca
         }
         await fetch(url+`/update/${editarMarcaId}`, {
             method: "PUT",

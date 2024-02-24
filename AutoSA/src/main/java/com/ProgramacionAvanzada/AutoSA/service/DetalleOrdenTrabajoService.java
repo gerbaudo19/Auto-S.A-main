@@ -30,4 +30,8 @@ public class DetalleOrdenTrabajoService {
     public Optional<DetalleOrdenTrabajo> findById(int id){
         return detalleOrdenTrabajoRepository.findById(id);
     }
+
+    public List<DetalleOrdenTrabajo> findByOrdenDeTrabajoId(int OrdenDeTrabajoId){
+        return detalleOrdenTrabajoRepository.findByOrdenDeTrabajoId(OrdenDeTrabajoId);
+    }
 }

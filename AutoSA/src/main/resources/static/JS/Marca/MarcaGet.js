@@ -28,10 +28,12 @@ export async function getMarcas() {
             const fila = document.createElement('tr');
             const columnaId = document.createElement('td');
             const columnaNombre = document.createElement('td');
+            const columnaImpuesto = document.createElement('td');
             const columnaOpciones = document.createElement('td');
 
             columnaId.textContent = marca.id;
             columnaNombre.textContent = marca.nombre;
+            columnaImpuesto.textContent = marca.impuesto + " %";
 
             // Botones de modificar y eliminar
 
@@ -63,6 +65,7 @@ export async function getMarcas() {
 
             fila.appendChild(columnaId);
             fila.appendChild(columnaNombre);
+            fila.appendChild(columnaImpuesto);
             fila.appendChild(columnaOpciones);
 
             tbody.appendChild(fila);

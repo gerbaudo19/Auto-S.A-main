@@ -67,4 +67,15 @@ public class PersonalDeTrabajoController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/listByOrdentrabajoId/{ordenTrabajoId}")
+    public ResponseEntity<List<PersonalDeTrabajo>> findByOrdenDeTrabajoId(@PathVariable int ordenTrabajoId){
+        try {
+            List<PersonalDeTrabajo> personalDeTrabajo = personalDeTrabajoService.findByOrdenDeTrabajoId(ordenTrabajoId);
+            return new ResponseEntity<>(personalDeTrabajo, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
