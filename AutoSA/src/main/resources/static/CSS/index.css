@@ -1,0 +1,52 @@
+:root{
+    --colorAzul0: #ffffff;
+    --colorAzul1: #76acfc;
+    --colorAzul2: #0d6efd;
+    --colorAzul3: #074cb4;
+    --colorAzul4: #002f75;
+    --colorAzul5: #00122e;
+}
+
+.body{
+    background-color: var(--colorAzul0);
+}
+
+
+.navbar-brand h1{
+    font-size: 25px;
+}
+
+.navbar{
+    border-bottom: solid var(--colorAzul2);
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.nav-item{
+    margin: 5px 25px;
+}
+
+.nav-item a{
+    color: var(--colorTres);
+    font-size: 20px;
+    border-radius: 15px;
+}
+
+.nav-item a:hover{
+    background-color: var(--colorAzul2);
+    color: #fff;
+    border-radius: 15px;
+}
+
+#checkbox-Tecnico{
+    max-height: 150px; 
+    overflow-y: auto;
+}
+#checkbox-Servicios{
+    max-height: 150px; 
+    overflow-y: auto;
+}
+
+#btn-ModalCliente{
+    margin-left: 15px;
+}
