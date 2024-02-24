@@ -87,7 +87,7 @@ public class VehiculoController {
     // se utiliza para indicar que este método maneja solicitudes HTTP PUT a la ruta "/update/{id}". 
     //Este método tiene dos parámetros. El primero, @PathVariable("id") int id, captura el valor del ID del vehículo desde la URL. El segundo, @RequestBody VehiculoDto vehiculoDto, obtiene los datos del vehículo que se deserializan automáticamente desde el cuerpo de la solicitud HTTP (en formato JSON).
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody VehiculoDto vehiculoDto){
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody VehiculoDto vehiculoDto){
         //Se verifica si un vehículo con el ID proporcionado (id) existe en la base de datos utilizando el método existsById del servicio de vehículos (vehiculoService).
         if(!vehiculoService.existsById(id)){
             // Si no existe, se devuelve una respuesta HTTP con el estado 400 Bad Request
@@ -109,7 +109,7 @@ public class VehiculoController {
     // se utiliza para indicar que este método maneja solicitudes HTTP DELETE a la ruta "/delete/{id}"
     // Este método tiene un parámetro, @PathVariable("id") int id, que captura el valor del ID del vehículo desde la URL.
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id")int id){
+    public ResponseEntity<?> delete(@PathVariable int id){
         //Se verifica si un vehículo con el ID proporcionado (id) existe en la base de datos utilizando el método existsById del servicio de vehículos (vehiculoService)
         if(!vehiculoService.existsById(id)){
             // Si no existe, se devuelve una respuesta HTTP con el estado 400 Bad Request (HttpStatus.BAD_REQUEST)
@@ -137,7 +137,7 @@ public class VehiculoController {
     //se utiliza para indicar que este método maneja solicitudes HTTP GET a la ruta "/listbyclie/{id}
     // Este método tiene un parámetro, @PathVariable("id") int id, que captura el valor del ID del cliente desde la URL.
     @GetMapping("/listByClienteId/{id}")
-    public ResponseEntity<List<Vehiculo>> findByClienteId(@PathVariable("id") int id){
+    public ResponseEntity<List<Vehiculo>> findByClienteId(@PathVariable int id){
         try {
             List<Vehiculo> list = vehiculoService.findByClienteId(id);
             //Finalmente, se devuelve una respuesta HTTP con el estado 200 OK (HttpStatus.OK) que incluye la lista de vehículos en formato JSON en el cuerpo de la respuesta.

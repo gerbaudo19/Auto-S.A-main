@@ -63,7 +63,7 @@ public class ClienteController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody ClienteDto clienteDto){
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody ClienteDto clienteDto){
         if(!clienteService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -84,7 +84,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id")int id){
+    public ResponseEntity<?> delete(@PathVariable int id){
 
         if(!clienteService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

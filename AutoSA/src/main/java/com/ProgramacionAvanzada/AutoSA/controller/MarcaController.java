@@ -68,7 +68,7 @@ public class MarcaController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id")int id){
+    public ResponseEntity<?> delete(@PathVariable int id){
 
         if(!marcaService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
