@@ -24,10 +24,6 @@ public class Servicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-    //@OneToMany(fetch = FetchType.EAGER,mappedBy = "servicio", cascade = CascadeType.ALL)
-    //@JsonBackReference
-    //private List<DetalleOrdenTrabajo> detalleOrdenTrabajo;  
-
     private String nombre;
     private String descripcion;
     private int precio;
