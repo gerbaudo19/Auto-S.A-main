@@ -24,6 +24,7 @@ public class PersonalDeTrabajoService {
         return personalDeTrabajoRepository.findByOrdenDeTrabajoId(ordenDeTrabajoId);
     }
 
+    @SuppressWarnings("null")
     public void save(PersonalDeTrabajo personalDeTrabajo){
         personalDeTrabajoRepository.save(personalDeTrabajo);
     }
@@ -34,5 +35,9 @@ public class PersonalDeTrabajoService {
 
     public Optional<PersonalDeTrabajo> findById(int id){
         return personalDeTrabajoRepository.findById(id);
+    }
+
+    public void deleteByOrdenDeTrabajoId(int ordenDeTrabajoId) {
+        personalDeTrabajoRepository.deleteByOrdenDeTrabajoId(ordenDeTrabajoId);
     }
 }

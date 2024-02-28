@@ -20,6 +20,7 @@ public class ServicioService {
         return servicioRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public void save(Servicio servicio){
         servicioRepository.save(servicio);
     }

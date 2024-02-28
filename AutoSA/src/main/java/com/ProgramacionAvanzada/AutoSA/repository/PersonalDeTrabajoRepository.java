@@ -12,4 +12,5 @@ import com.ProgramacionAvanzada.AutoSA.entity.PersonalDeTrabajo;
 public interface PersonalDeTrabajoRepository extends JpaRepository<PersonalDeTrabajo, Integer> {
     Optional<PersonalDeTrabajo> findById(int id);
     List<PersonalDeTrabajo> findByOrdenDeTrabajoId(int ordenTrabajoId);
+    void deleteByOrdenDeTrabajoId(int ordenDeTrabajoId);
 }

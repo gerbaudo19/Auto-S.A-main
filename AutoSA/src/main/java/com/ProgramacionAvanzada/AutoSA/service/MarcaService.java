@@ -20,6 +20,7 @@ public class MarcaService {
         return marcaRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public void save(Marca marca){
         marcaRepository.save(marca);
     }

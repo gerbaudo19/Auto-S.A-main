@@ -64,15 +64,18 @@ public class OrdenDeTrabajoController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable /*("id")*/ int id){
-        //if(!ordenDeTrabajoService.existsById(id)){
-        //    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        //}
-
+    public ResponseEntity<?> delete(@PathVariable int id) {
+        
+        if (!ordenDeTrabajoService.existsById(id)) {
+            return new ResponseEntity<>("La orden de trabajo con ID " + id + " no existe.", HttpStatus.NOT_FOUND);
+        }
+        // Eliminar la orden de trabajo
         ordenDeTrabajoService.deleteById(id);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        
+        return new ResponseEntity<>("La orden de trabajo con ID " + id + " ha sido eliminada correctamente.", HttpStatus.OK);
     }
+    
+    
 
     @GetMapping("/list")
     public ResponseEntity<List<OrdenDeTrabajo>> findAll(){

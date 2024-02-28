@@ -27,6 +27,7 @@ public class VehiculoService {
     }
 
     //Guarda vehiculo, instanciando uno mediante los parametros
+    @SuppressWarnings("null")
     public void save(Vehiculo vehiculo){
         vehiculoRepository.save(vehiculo);
     }

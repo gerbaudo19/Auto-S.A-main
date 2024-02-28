@@ -15,6 +15,8 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -49,11 +51,50 @@
 			<version>8.0.1.Final</version>
 		</dependency>
 
+		<!-- Spring Boot Starter Test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+			<dependencies>
+				<!-- JUnit Jupiter API and Engine -->
+				<dependency>
+					<groupId>org.junit.jupiter</groupId>
+					<artifactId>junit-jupiter-api</artifactId>
+					<version>5.8.1</version> <!-- Actualiza a la versión más reciente -->
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.junit.jupiter</groupId>
+					<artifactId>junit-jupiter-engine</artifactId>
+					<version>5.8.1</version> <!-- Actualiza a la versión más reciente -->
+					<scope>test</scope>
+				</dependency>
+
+				<!-- Mockito -->
+				<dependency>
+					<groupId>org.mockito</groupId>
+					<artifactId>mockito-core</artifactId>
+					<version>4.11.0</version>
+					<scope>test</scope>
+				</dependency>
+
+				<!-- MySQL Connector para pruebas -->
+				<dependency>
+					<groupId>mysql</groupId>
+					<artifactId>mysql-connector-java</artifactId>
+					<version>8.0.23</version> <!-- Utiliza la versión más reciente disponible -->
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
 		</dependency>
+
 	</dependencies>
 
 	<build>

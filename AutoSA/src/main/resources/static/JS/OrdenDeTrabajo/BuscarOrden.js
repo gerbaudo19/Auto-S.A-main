@@ -43,14 +43,37 @@ function llenarTablaFor(data){
         btnEditarOrden.addEventListener("click",async function(){
 
         })
-        //Boton Eliminar Orden
+        
+        // Boton Eliminar Orden
         const btnEliminarOrden = document.createElement('button');
         btnEliminarOrden.textContent = "Eliminar";
-        btnEliminarOrden.classList= 'btn btn-outline-danger';
-        btnEliminarOrden.style = "margin: 0px 5px;"
-        btnEliminarOrden.addEventListener("click",async function(){
+        btnEliminarOrden.classList = 'btn btn-outline-danger';
+        btnEliminarOrden.style.margin = "0px 5px";
+        btnEliminarOrden.addEventListener("click", async function(){
+            const confirmacion = confirm("¿Estás seguro de que deseas eliminar esta orden de trabajo?");
+            if (confirmacion) {
+                const idOrden = OrdenTrabajo.id; // Asegúrate de tener acceso al objeto OrdenTrabajo
+                try {
+                    const response = await fetch(`${urlOrden}/delete/${idOrden}`, { // Cambiado a `/delete/${idOrden}`
+                        method: 'DELETE'
+                    });
+                    if (response.ok) {
+                        // Eliminación exitosa, volver a cargar la tabla
+                        await BuscarOrden();
+                        alert("Orden de trabajo eliminada correctamente.");
+                    } else {
+                        // Error al eliminar
+                        alert("Error al eliminar la orden de trabajo.");
+                    }
+                } catch (error) {
+                    console.error("Error al eliminar la orden de trabajo:", error);
+                    alert("Error al eliminar la orden de trabajo. Por favor, inténtalo de nuevo más tarde.");
+                }
+            }
+        });
 
-        })
+
+
         //Boton detalle Orden
         const btnDetalleOrden = document.createElement('button');
         btnDetalleOrden.textContent = "Detalles";

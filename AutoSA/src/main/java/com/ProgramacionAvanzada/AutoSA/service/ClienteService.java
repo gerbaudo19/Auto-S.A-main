@@ -21,6 +21,7 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public void save(Cliente cliente){
         clienteRepository.save(cliente);
     }

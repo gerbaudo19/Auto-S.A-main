@@ -20,6 +20,7 @@ public class TecnicoService {
         return tecnicoRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public void save(Tecnico tecnico){
         tecnicoRepository.save(tecnico);
     }

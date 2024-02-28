@@ -19,6 +19,7 @@ public class DetalleOrdenTrabajoService {
         return detalleOrdenTrabajoRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public void save(DetalleOrdenTrabajo detalleOrdenTrabajo){
         detalleOrdenTrabajoRepository.save(detalleOrdenTrabajo);
     }
@@ -33,5 +34,9 @@ public class DetalleOrdenTrabajoService {
 
     public List<DetalleOrdenTrabajo> findByOrdenDeTrabajoId(int OrdenDeTrabajoId){
         return detalleOrdenTrabajoRepository.findByOrdenDeTrabajoId(OrdenDeTrabajoId);
+    }
+
+    public void deleteByOrdenDeTrabajoId(int ordenDeTrabajoId) {
+        detalleOrdenTrabajoRepository.deleteByOrdenDeTrabajoId(ordenDeTrabajoId);
     }
 }

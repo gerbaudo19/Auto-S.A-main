@@ -23,8 +23,8 @@
             <li class="nav-item">
               <a class="nav-link" href="./BuscarOrden.html">Orden de trabajo</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./Estadisticas.html">Estadisticas</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="./Estadisticas.html">Estadisticas</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administracion de datos</a>
@@ -42,5 +42,52 @@
       </div>
     </nav>
   </header>
+
+<main>
+  <div class="container">
+    <div class="card my-3">
+      <div class="card-body">
+        
+        <div class="mb-3" style="text-align: center;">
+          <h2>Estadisticas</h2>
+        </div>
+
+        <!-- FORMULARIO -->
+        <form id="formBusqueda">
+          <div class="row">
+            <div class="col">
+                <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
+            </div>
+            <div class="col">
+                <label for="fechaFin" class="form-label">Fecha de Fin</label>
+                <input type="date" class="form-control" id="fechaFin" name="fechaFin">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+                <button class="btn btn-outline-primary" type="submit" id="btn-buscar">Buscar Servicios Mas Solicitados</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="mb-3">
+          <!-- TABLA -->
+          <table class="table" id="tablaServiciosMasSolicitados">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</main>
 </body>
 </html>

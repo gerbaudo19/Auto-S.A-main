@@ -16,6 +16,7 @@ public class FacturaService {
     @Autowired
     FacturaRespository facturaRespository;
 
+    @SuppressWarnings("null")
     public void save(Factura factura) {
         facturaRespository.save(factura);
     }

@@ -12,4 +12,5 @@ import com.ProgramacionAvanzada.AutoSA.entity.DetalleOrdenTrabajo;
 public interface DetalleOrdenTrabajoRepository extends JpaRepository<DetalleOrdenTrabajo, Integer> {
     Optional<DetalleOrdenTrabajo> findById(int id);
     List<DetalleOrdenTrabajo> findByOrdenDeTrabajoId (int ordenTrabajoId);
+    void deleteByOrdenDeTrabajoId(int ordenDeTrabajoId);
 }

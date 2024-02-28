@@ -23,14 +23,16 @@ public class Servicio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
     private String nombre;
     private String descripcion;
     private int precio;
 
-    public Servicio(String nombre, String descripcion, int precio){
+    public Servicio(String nombre, String descripcion, int precio) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
     }
+
 }
+

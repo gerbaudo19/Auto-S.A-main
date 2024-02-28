@@ -45,6 +45,7 @@ public class ModeloService {
         return modeloRepository.existsByNombre(nombre);
     }
 
+    @SuppressWarnings("null")
     public void save(Modelo modelo){
         modeloRepository.save(modelo);
     }

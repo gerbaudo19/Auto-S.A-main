@@ -10,20 +10,22 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ProgramacionAvanzada.AutoSA.entity.OrdenDeTrabajo;
 import com.ProgramacionAvanzada.AutoSA.repository.OrdenDeTrabajoRepository;
 
+import jakarta.validation.constraints.NotNull;
+
 @Service
 @Transactional
 public class OrdenDeTrabajoService {
     @Autowired
     OrdenDeTrabajoRepository ordenDeTrabajoRepository;
 
-    public void save(OrdenDeTrabajo ordenDeTrabajo){
+    public void save(@NotNull OrdenDeTrabajo ordenDeTrabajo){
         ordenDeTrabajoRepository.save(ordenDeTrabajo);
     }
 
     public void deleteById(int id){
         ordenDeTrabajoRepository.deleteById(id);
     }
-
+    
     public List<OrdenDeTrabajo> findAll(){
         return ordenDeTrabajoRepository.findAll();
     }
@@ -35,4 +37,18 @@ public class OrdenDeTrabajoService {
     public Optional<OrdenDeTrabajo> obtenerUltimaOrdenDeTrabajo(){
         return ordenDeTrabajoRepository.findFirstByOrderByIdDesc();
     }
+
+    public boolean existsById(int id) {
+        return ordenDeTrabajoRepository.existsById(id);
+    }
+    
+    public void eliminarOrdenDeTrabajo(int id) {
+        Optional<OrdenDeTrabajo> optionalOrden = ordenDeTrabajoRepository.findById(id);
+        if (optionalOrden.isPresent()) {
+            ordenDeTrabajoRepository.delete(optionalOrden.get());
+        } else {
+            throw new IllegalArgumentException("No se pudo encontrar la orden de trabajo con ID: " + id);
+        }
+    }
 }
+
