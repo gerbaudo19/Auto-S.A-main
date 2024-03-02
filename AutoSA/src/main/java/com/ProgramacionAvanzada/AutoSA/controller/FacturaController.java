@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ProgramacionAvanzada.AutoSA.dto.FacturaDto;
 import com.ProgramacionAvanzada.AutoSA.entity.Factura;
+import com.ProgramacionAvanzada.AutoSA.entity.OrdenDeTrabajo;
 import com.ProgramacionAvanzada.AutoSA.service.FacturaService;
 
 @RestController
@@ -29,8 +30,11 @@ public class FacturaController {
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody FacturaDto facturaDto){
 
+        OrdenDeTrabajo ordenDeTrabajo = facturaDto.getOrdenDeTrabajo();
+        int subTotal = facturaService.calcularSubTotal(ordenDeTrabajo);
+
         Factura facturaNueva = new Factura(
-            facturaDto.getSubTotal(),
+            subTotal,
             facturaDto.getFecha(),
             facturaDto.getHora(),
             facturaDto.getOrdenDeTrabajo()
@@ -40,6 +44,7 @@ public class FacturaController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable int id, @RequestBody FacturaDto facturaDto){

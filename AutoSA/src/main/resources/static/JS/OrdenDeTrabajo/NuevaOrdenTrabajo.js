@@ -113,12 +113,23 @@ async function setOrdenTrabajo(vehiculoCargar){
 // Consulta ultima Orden de Trabajo ------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
 
-async function consultaUltimaOrden(){
-    const response = await fetch(urlOrden+"/listUltimo");
-    if(!response.ok){
-        console.log("Hubo problema con la consulta de la ultima orden");
-    }else{
-        const ultimaOrden = await response.json();
-        return ultimaOrden. id;
+async function consultaUltimaOrden() {
+    try {
+        const response = await fetch(urlOrden + "/listUltimo");
+        if (!response.ok) {
+            console.log("Hubo un problema con la consulta de la última orden");
+            return null; // Retorna null en caso de problema con la solicitud
+        } else {
+            const ultimaOrden = await response.json();
+            if (ultimaOrden) {
+                return ultimaOrden.id;
+            } else {
+                console.log("No se encontró la última orden");
+                return null; // Retorna null si no se encontró la última orden
+            }
+        }
+    } catch (error) {
+        console.error('Error en la solicitud GET:', error);
+        return null; // Retorna null en caso de error en la solicitud
     }
 }
