@@ -13,16 +13,4 @@ public class AutoSaApplication {
     public static void main(String[] args) {
         SpringApplication.run(AutoSaApplication.class, args);
     }
-
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(@NonNull CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://127.0.0.1:5500");
-                registry.addMapping("/personalDeTrabajo/deleteByOrdenTrabajoId/**").allowedOrigins("http://127.0.0.1:5500");
-                registry.addMapping("/detalleOrdenTrabajo/deleteByOrdenTrabajoId/**").allowedOrigins("http://127.0.0.1:5500");
-            }
-        };
-    }
 }
