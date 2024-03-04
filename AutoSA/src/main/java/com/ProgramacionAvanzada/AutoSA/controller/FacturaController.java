@@ -1,5 +1,6 @@
 package com.ProgramacionAvanzada.AutoSA.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,5 +94,15 @@ public class FacturaController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } 
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<Factura>> findAll() {
+        try {
+            List<Factura> facturas = facturaService.findAll(); // Suponiendo que tienes un método `findAll` en tu servicio
+            return new ResponseEntity<>(facturas, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

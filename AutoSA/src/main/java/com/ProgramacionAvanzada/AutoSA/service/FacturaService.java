@@ -70,5 +70,8 @@ public class FacturaService {
         return subTotal;
     }
     
+    public List<Factura> findAll() {
+        return facturaRespository.findAll();
+    }
     
 }

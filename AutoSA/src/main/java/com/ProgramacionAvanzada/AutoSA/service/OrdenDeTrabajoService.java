@@ -31,25 +31,27 @@ public class OrdenDeTrabajoService {
         if (optionalOrden.isPresent()) {
             OrdenDeTrabajo ordenDeTrabajo = optionalOrden.get();
             
-            // Obtener el estado "anulada"
-            Estado estadoAnulada = estadoService.findById(2).orElseThrow(() -> new IllegalArgumentException("No se pudo encontrar el estado anulada."));
-            
             // Log the estado before changing
             System.out.println("Estado antes del cambio: " + ordenDeTrabajo.getEstado().getNombre());
     
+            // Obtener el estado "anulada"
+            Estado estadoAnulada = estadoService.findById(2).orElseThrow(() -> new IllegalArgumentException("No se pudo encontrar el estado anulada."));
+            
             // Cambiar el estado de la orden a "anulada"
             ordenDeTrabajo.setEstado(estadoAnulada);
             
-            // Log the estado after changing
-            System.out.println("Estado después del cambio: " + ordenDeTrabajo.getEstado().getNombre());
-            
             // Guardar los cambios
             ordenDeTrabajoRepository.save(ordenDeTrabajo);
+    
+            // Eliminar la orden de trabajo
+            ordenDeTrabajoRepository.deleteById(id);
+    
+            // Log the estado after changing
+            System.out.println("Estado después del cambio: " + ordenDeTrabajo.getEstado().getNombre());
         } else {
             throw new IllegalArgumentException("No se pudo encontrar la orden de trabajo con ID: " + id);
         }
     }
-    
     
     public List<OrdenDeTrabajo> findAll(){
         return ordenDeTrabajoRepository.findAll();

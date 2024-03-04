@@ -23,8 +23,8 @@
             <li class="nav-item">
               <a class="nav-link" href="./BuscarOrden.html">Orden de trabajo</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" href="./Estadisticas.html">Estadisticas</a>
+            <li class="nav-item">
+              <a class="nav-link" href="./Estadisticas.html">Estadisticas</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administracion de datos</a>
@@ -44,51 +44,57 @@
     </nav>
   </header>
 
-<main>
-  <div class="container">
-    <div class="card my-3">
-      <div class="card-body">
-        
-        <div class="mb-3" style="text-align: center;">
-          <h2>Estadisticas</h2>
-        </div>
+    <main>
+      <div class="container">
+        <div class="card my-3">
+          <div class="card-body">
+            
+            <div class="mb-3" style="text-align: center;">
+              <h2>Facturas</h2>
+            </div>
 
-        <!-- FORMULARIO -->
-        <form id="formBusqueda">
-          <div class="row">
-            <div class="col">
-                <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
-                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
+            <!-- Opciones para buscar y filtrar -->
+            <div class="mb-3" style="margin-top: 5px;">
+              <div class="row">
+                  <div class="col">
+                      <form class="d-flex" role="search" id="formBusqueda">
+                          <button  class="btn btn-outline-primary" type="submit" id="btn-buscar">Buscar</button>
+                      </form>
+                  </div>
+                  <div class="col">
+                    <select class="form-select" id="select-Filtrar" aria-label="Default select example">
+                        <option selected value="0">Filtrar por...</option>
+                        <option value="idFactura">ID de Factura</option>
+                        <option value="idOrden">ID de Orden</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <input class="form-control" type="number" id="input-filtro" placeholder="ID">
+                </div>
+              </div>
             </div>
-            <div class="col">
-                <label for="fechaFin" class="form-label">Fecha de Fin</label>
-                <input type="date" class="form-control" id="fechaFin" name="fechaFin">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-                <button class="btn btn-outline-primary" type="submit" id="btn-buscar">Buscar Servicios Mas Solicitados</button>
-            </div>
-          </div>
-        </form>
 
-        <div class="mb-3">
-          <!-- TABLA -->
-          <table class="table" id="tablaServiciosMasSolicitados">
-            <thead>
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Cantidad</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
+            <!-- Tabla para cargar Facturas -->
+            <table class="table" id="tablaFactura" style="display: none;">
+              <thead>
+                  <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Fecha</th>
+                      <th scope="col">Hora</th>
+                      <th scope="col">SubTotal</th>
+                      <th scope="col">Orden de Trabajo</th>
+                      <th scope="col">Acciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-      </div>
-    </div>
-  </div>
-</main>
+  </main>
+
+  <!-- <script src="../JS/Modelo/Modelo.js"></script> -->
+  <script type="module" src="../JS/Factura/Factura.js"></script>
 </body>
 </html>
