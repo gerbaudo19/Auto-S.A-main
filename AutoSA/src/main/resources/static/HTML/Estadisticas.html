@@ -23,8 +23,8 @@
             <li class="nav-item">
               <a class="nav-link" href="./BuscarOrden.html">Orden de trabajo</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" href="./Estadisticas.html">Estadisticas</a>
+            <li class="nav-item">
+              <a class="nav-link" href="./Estadisticas.html">Estadisticas</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administracion de datos</a>
@@ -43,52 +43,66 @@
       </div>
     </nav>
   </header>
-
-<main>
-  <div class="container">
-    <div class="card my-3">
-      <div class="card-body">
-        
-        <div class="mb-3" style="text-align: center;">
-          <h2>Estadisticas</h2>
-        </div>
-
-        <!-- FORMULARIO -->
-        <form id="formBusqueda">
-          <div class="row">
-            <div class="col">
-                <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
-                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
-            </div>
-            <div class="col">
-                <label for="fechaFin" class="form-label">Fecha de Fin</label>
-                <input type="date" class="form-control" id="fechaFin" name="fechaFin">
-            </div>
+  <main>
+    <div class="container">
+      <div class="card my-3">
+        <div class="card-body">
+          <div class="mb-3" style="text-align: center;">
+            <h2>Estadísticas</h2>
           </div>
-          <div class="row">
-            <div class="col">
-                <button class="btn btn-outline-primary" type="submit" id="btn-buscar">Buscar Servicios Mas Solicitados</button>
-            </div>
-          </div>
-        </form>
-
-        <div class="mb-3">
-          <!-- TABLA -->
-          <table class="table" id="tablaServiciosMasSolicitados">
-            <thead>
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Cantidad</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
+          <canvas id="chartContainer" style="height: 200px; width: 100%;"></canvas>
         </div>
-      </div>
       </div>
     </div>
-  </div>
-</main>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="card my-3" style="background-color: #77dd77; padding: 20px;">
+            <div class="card-body">
+              <div class="mb-3" style="text-align: center;">
+                <h1 style="color: white;">Ganancia Anual</h1>
+              </div>
+              <div class="card-text" style="text-align: center; font-size: 30px; color: white;">
+                <span id="gananciaAnual">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>      
+      <div id="tablaServicios" class="card my-3">
+        <div class="card-body">
+          <div class="mb-3" style="text-align: center;">
+            <h2>Servicios más solicitados</h2>
+          </div>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Servicio</th>
+                <th>Cantidad</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyServicios"></tbody>
+          </table>
+        </div>
+      </div>       
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="card my-3">
+              <div class="card-body">
+                <div class="mb-3" style="text-align: center;">
+                  <h2>Rendimiento de Técnicos</h2>
+                </div>
+                <div id="rendimientoTecnicos"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../JS/Estadisticas/EstadisticaEstado.js"></script>
 </body>
 </html>

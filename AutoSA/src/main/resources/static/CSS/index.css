@@ -50,3 +50,24 @@
 #btn-ModalCliente{
     margin-left: 15px;
 }
+
+.table-bordered {
+    border-color: #ddd;
+  }
+  
+  .table-bordered th,
+  .table-bordered td {
+    border-width: 1px;
+  }
+  
+  .fila-alta {
+    background-color: #f9f9f9;
+  }
+  
+  .fila-media {
+    background-color: #f2f2f2;
+  }
+  
+  .fila-baja {
+    background-color: #fafafa;
+  }

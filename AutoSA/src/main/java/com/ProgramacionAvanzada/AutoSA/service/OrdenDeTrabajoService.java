@@ -68,6 +68,19 @@ public class OrdenDeTrabajoService {
     public boolean existsById(int id) {
         return ordenDeTrabajoRepository.existsById(id);
     }
+
+    // Método para cambiar el estado de la orden a finalizado cuando se crea una factura
+    public void cambiarEstadoOrdenCuandoFacturada(int ordenId) {
+        Optional<OrdenDeTrabajo> optionalOrden = ordenDeTrabajoRepository.findById(ordenId);
+        if (optionalOrden.isPresent()) {
+            OrdenDeTrabajo ordenDeTrabajo = optionalOrden.get();
+            Estado estadoFinalizado = estadoService.findById(3).orElseThrow(() -> new IllegalArgumentException("No se pudo encontrar el estado finalizado."));
+            ordenDeTrabajo.setEstado(estadoFinalizado);
+            ordenDeTrabajoRepository.save(ordenDeTrabajo);
+        } else {
+            throw new IllegalArgumentException("No se pudo encontrar la orden de trabajo con ID: " + ordenId);
+        }
+    }
 }
 
 

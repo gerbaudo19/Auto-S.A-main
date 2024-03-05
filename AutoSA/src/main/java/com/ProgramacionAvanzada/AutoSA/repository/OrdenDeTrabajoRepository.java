@@ -31,4 +31,7 @@ public interface OrdenDeTrabajoRepository extends JpaRepository<OrdenDeTrabajo, 
     // Método para encontrar los detalles de orden de trabajo asociados a una orden por su ID
     @Query("SELECT o.detallesOrdenTrabajo FROM OrdenDeTrabajo o WHERE o.id = :ordenId")
     List<DetalleOrdenTrabajo> findDetallesOrdenTrabajoByOrdenId(@Param("ordenId") int ordenId);
+
+    @Query("SELECT COUNT(o) FROM OrdenDeTrabajo o WHERE o.estado.id = :estadoId")
+    int countByEstadoId(@Param("estadoId") int estadoId);
 }

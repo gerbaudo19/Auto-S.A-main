@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.ProgramacionAvanzada.AutoSA.entity.Servicio;
+import com.ProgramacionAvanzada.AutoSA.repository.ServicioRepository;
 import com.ProgramacionAvanzada.AutoSA.service.EstadisticasServiciosService;
 
 import java.time.LocalDate;
@@ -24,12 +25,24 @@ public class EstadisticasServiciosController {
     @Autowired
     private EstadisticasServiciosService estadisticasServiciosService;
 
+    @Autowired
+    private ServicioRepository servicioRepository;
+
     @GetMapping("/servicios-mas-solicitados")
     public ResponseEntity<?> obtenerEstadisticasServiciosMasSolicitadosEnPeriodo(
             @RequestParam("fechaInicio") LocalDate fechaInicio,
             @RequestParam("fechaFin") LocalDate fechaFin) {
         try {
-            Map<Integer, Integer> estadisticas = estadisticasServiciosService.obtenerServiciosMasSolicitadosEnPeriodo(fechaInicio, fechaFin);
+            Map<String, Integer> estadisticas = new HashMap<>();
+            Map<Integer, Integer> estadisticasId = estadisticasServiciosService.obtenerServiciosMasSolicitadosEnPeriodo(fechaInicio, fechaFin);
+            for (Map.Entry<Integer, Integer> entry : estadisticasId.entrySet()) {
+                int servicioId = entry.getKey();
+                int cantidad = entry.getValue();
+                Servicio servicio = servicioRepository.findById(servicioId).orElse(null);
+                if (servicio != null) {
+                    estadisticas.put(servicio.getNombre(), cantidad);
+                }
+            }
             return ResponseEntity.ok(estadisticas);
         } catch (IllegalArgumentException e) {
             Map<String, String> errorResponse = new HashMap<>();

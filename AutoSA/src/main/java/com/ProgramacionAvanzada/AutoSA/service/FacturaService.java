@@ -1,7 +1,7 @@
 package com.ProgramacionAvanzada.AutoSA.service;
 
 import java.util.Optional;
-
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import com.ProgramacionAvanzada.AutoSA.entity.Factura;
 import com.ProgramacionAvanzada.AutoSA.entity.OrdenDeTrabajo;
 import com.ProgramacionAvanzada.AutoSA.entity.Servicio;
 import com.ProgramacionAvanzada.AutoSA.repository.DetalleOrdenTrabajoRepository;
-import com.ProgramacionAvanzada.AutoSA.repository.FacturaRespository;
+import com.ProgramacionAvanzada.AutoSA.repository.FacturaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 @Transactional  
 public class FacturaService {
     @Autowired
-    FacturaRespository facturaRespository;
+    FacturaRepository facturaRepository;
 
     @Autowired
     DetalleOrdenTrabajoRepository detalleOrdenTrabajoRepository;
@@ -32,19 +32,19 @@ public class FacturaService {
 
     @SuppressWarnings("null")
     public void save(Factura factura) {
-        facturaRespository.save(factura);
+        facturaRepository.save(factura);
     }
 
     public void deleteById(int id){
-        facturaRespository.deleteById(id);
+        facturaRepository.deleteById(id);
     }
 
     public Optional<Factura> findByOrdenDeTrabajoId(int ordenDeTrabajoId){
-        return facturaRespository.findByOrdenDeTrabajoId(ordenDeTrabajoId);
+        return facturaRepository.findByOrdenDeTrabajoId(ordenDeTrabajoId);
     }
 
     public Optional<Factura> findById(int id){
-        return facturaRespository.findById(id);
+        return facturaRepository.findById(id);
     }
 
     public int calcularSubTotal(OrdenDeTrabajo ordenDeTrabajo) {
@@ -71,7 +71,11 @@ public class FacturaService {
     }
     
     public List<Factura> findAll() {
-        return facturaRespository.findAll();
+        return facturaRepository.findAll();
+    }
+
+    public List<Factura> findByFechaBetween(LocalDate fechaInicio, LocalDate fechaFin) {
+        return facturaRepository.findByFechaBetween(fechaInicio, fechaFin);
     }
     
 }

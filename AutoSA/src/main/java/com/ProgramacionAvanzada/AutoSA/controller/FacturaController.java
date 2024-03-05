@@ -20,6 +20,7 @@ import com.ProgramacionAvanzada.AutoSA.dto.FacturaDto;
 import com.ProgramacionAvanzada.AutoSA.entity.Factura;
 import com.ProgramacionAvanzada.AutoSA.entity.OrdenDeTrabajo;
 import com.ProgramacionAvanzada.AutoSA.service.FacturaService;
+import com.ProgramacionAvanzada.AutoSA.service.OrdenDeTrabajoService;
 
 @RestController
 @RequestMapping("/factura")
@@ -27,6 +28,9 @@ import com.ProgramacionAvanzada.AutoSA.service.FacturaService;
 public class FacturaController {
     @Autowired
     FacturaService facturaService;
+
+    @Autowired
+    OrdenDeTrabajoService ordenDeTrabajoService;
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody FacturaDto facturaDto){
@@ -42,6 +46,9 @@ public class FacturaController {
         );
 
         facturaService.save(facturaNueva);
+
+        // Cambiar el estado de la orden a finalizado cuando se crea la factura
+        ordenDeTrabajoService.cambiarEstadoOrdenCuandoFacturada(ordenDeTrabajo.getId());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
