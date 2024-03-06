@@ -27,7 +27,6 @@ public class OrdenDeTrabajo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
     private String observacion;
     private LocalDate fechaCreacion;
     @Column(columnDefinition = "TIME")

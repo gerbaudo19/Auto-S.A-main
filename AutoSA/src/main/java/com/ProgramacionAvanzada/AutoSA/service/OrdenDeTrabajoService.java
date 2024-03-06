@@ -1,5 +1,6 @@
 package com.ProgramacionAvanzada.AutoSA.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ProgramacionAvanzada.AutoSA.entity.Estado;
 import com.ProgramacionAvanzada.AutoSA.entity.OrdenDeTrabajo;
+import com.ProgramacionAvanzada.AutoSA.entity.Vehiculo;
 import com.ProgramacionAvanzada.AutoSA.repository.OrdenDeTrabajoRepository;
 
 import jakarta.validation.constraints.NotNull;
@@ -80,6 +82,22 @@ public class OrdenDeTrabajoService {
         } else {
             throw new IllegalArgumentException("No se pudo encontrar la orden de trabajo con ID: " + ordenId);
         }
+    }
+
+    public List<OrdenDeTrabajo> findByVehiculo(Vehiculo vehiculo) {
+        return ordenDeTrabajoRepository.findByVehiculo(vehiculo);
+    }
+
+    public Optional<OrdenDeTrabajo> findFirstByOrderByIdDesc() {
+        return ordenDeTrabajoRepository.findFirstByOrderByIdDesc();
+    }
+
+    public List<OrdenDeTrabajo> findByFechaCreacionBetween(LocalDate fechaInicio, LocalDate fechaFin) {
+        return ordenDeTrabajoRepository.findByFechaCreacionBetween(fechaInicio, fechaFin);
+    }
+
+    public int countByEstadoId(int estadoId) {
+        return ordenDeTrabajoRepository.countByEstadoId(estadoId);
     }
 }
 
