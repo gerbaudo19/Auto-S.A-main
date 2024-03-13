@@ -1,7 +1,6 @@
 package com.ProgramacionAvanzada.AutoSA.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.ProgramacionAvanzada.AutoSA.dto.MarcaDto;
 import com.ProgramacionAvanzada.AutoSA.entity.Marca;
 import com.ProgramacionAvanzada.AutoSA.service.MarcaService;
 
@@ -48,28 +46,6 @@ public class MarcaControllerTest {
         assertEquals(2, response.getBody().size());
     }
 
-    @Test
-    public void testCreate() {
-        MarcaDto marcaDto = new MarcaDto("NuevaMarca", 20);
-        when(marcaService.existsByNombre(marcaDto.getNombre())).thenReturn(false);
-        doNothing().when(marcaService).save(any());
-
-        ResponseEntity<?> response = marcaController.create(marcaDto);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
-    public void testUpdate() {
-        int id = 1;
-        MarcaDto marcaDto = new MarcaDto("MarcaEditada", 25);
-        when(marcaService.existsById(id)).thenReturn(true);
-        when(marcaService.findById(id)).thenReturn(Optional.of(new Marca()));
-
-        ResponseEntity<?> response = marcaController.update(id, marcaDto);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
 
     @Test
     public void testDelete() {

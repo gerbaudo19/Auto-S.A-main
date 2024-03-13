@@ -23,6 +23,7 @@ public class Factura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
     private int subTotal;
+    private int total;
     private LocalDate fecha;
     @Column(columnDefinition = "TIME")
     private LocalTime hora;
@@ -31,8 +32,9 @@ public class Factura {
     @JoinColumn(name = "OrdenDeTrabajo_id")
     private OrdenDeTrabajo ordenDeTrabajo;
 
-    public Factura(int subTotal, LocalDate fecha, LocalTime hora, OrdenDeTrabajo ordenDeTrabajo){
+    public Factura(int subTotal, int total, LocalDate fecha, LocalTime hora, OrdenDeTrabajo ordenDeTrabajo){
         this.subTotal = subTotal;
+        this.total = total;
         this.fecha = fecha;
         this.hora = hora;
         this.ordenDeTrabajo = ordenDeTrabajo;

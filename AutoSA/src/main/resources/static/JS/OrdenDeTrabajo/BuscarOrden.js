@@ -5,6 +5,27 @@ const tablaOrden = document.getElementById("tabla-OrdenTrabajo");
 const urlOrden = "http://localhost:8080/ordenDeTrabajo";
 const urlPersonal = "http://localhost:8080/personalDeTrabajo";
 const urlDetalle = "http://localhost:8080/detalleOrdenTrabajo";
+
+//----------------------------------------------------------------------------------------------------------------------
+// Función para mostrar la ventana emergente
+function mostrarVentanaEmergente(contenido) {
+    const ventanaEmergente = document.createElement('div');
+    ventanaEmergente.classList.add('ventana-emergente');
+    ventanaEmergente.innerHTML = contenido;
+    
+    // Estilo de la ventana emergente
+    ventanaEmergente.style.position = 'fixed';
+    ventanaEmergente.style.top = '50%';
+    ventanaEmergente.style.left = '50%';
+    ventanaEmergente.style.transform = 'translate(-50%, -50%)';
+    ventanaEmergente.style.backgroundColor = 'white';
+    ventanaEmergente.style.padding = '20px';
+    ventanaEmergente.style.border = '2px solid black';
+    ventanaEmergente.style.zIndex = '9999';
+    
+    document.body.appendChild(ventanaEmergente);
+}
+
 //----------------------------------------------------------------------------------------------------------------------
 // llenar tabla con muchas ordenes -------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
@@ -63,16 +84,6 @@ function llenarTablaFor(data){
             }
         });
 
-
-        //Boton Editar Orden
-        /*const btnEditarOrden = document.createElement('button');
-        btnEditarOrden.textContent = "Editar";
-        btnEditarOrden.classList= 'btn btn-outline-primary';
-        btnEditarOrden.style = "margin: 0px 5px;"
-        btnEditarOrden.addEventListener("click",async function(){
-
-        })*/
-        
         // Boton Eliminar Orden
         const btnEliminarOrden = document.createElement('button');
         btnEliminarOrden.textContent = "Eliminar";
@@ -101,21 +112,112 @@ function llenarTablaFor(data){
             }
         });
 
-
-
-        //Boton detalle Orden
-        /*const btnDetalleOrden = document.createElement('button');
+        // Botón Detalle Orden
+        const btnDetalleOrden = document.createElement('button');
         btnDetalleOrden.textContent = "Detalles";
-        btnDetalleOrden.classList= 'btn btn-outline-success';
-        btnDetalleOrden.style = "margin: 0px 5px;"
-        btnDetalleOrden.addEventListener("click",async function(){
+        btnDetalleOrden.classList = 'btn btn-outline-info';
+        btnDetalleOrden.style.margin = "0px 5px";
+        btnDetalleOrden.addEventListener("click", async function() {
+            try {
+                const ordenId = OrdenTrabajo.id;
 
-        })*/
+                // Hacer una solicitud para obtener los detalles de la orden
+                const responseOrden = await fetch(`http://localhost:8080/detalleOrdenTrabajo/listByOrdentrabajoId/${ordenId}`);
+                const detallesOrden = await responseOrden.json();
+
+                // Hacer una solicitud para obtener los técnicos asociados a la orden
+                const responseTecnicos = await fetch(`http://localhost:8080/personalDeTrabajo/listByOrdentrabajoId/${ordenId}`);
+                const tecnicos = await responseTecnicos.json();
+
+                // Construir el contenido de la ventana emergente
+                let detallesHTML = `
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"><h5>Servicios</h5></th>
+                                <ul class="list-group">
+                            </tr>
+                        </thead>
+                        <tbody>`;
+                
+                detallesOrden.forEach(detalle => {
+                    detallesHTML += `
+                        <tr>
+                            <td>${detalle.servicio.nombre}</td>
+                        </tr>`;
+                });
+
+                detallesHTML += `</tbody>
+                    </table>
+                    <h5>Tecnicos Encargados</h5>
+                    <ul class="list-group">`;
+
+                tecnicos.forEach(tecnico => {
+                    detallesHTML += `
+                        <li class="list-group-item">${tecnico.tecnico.nombre} ${tecnico.tecnico.apellido}</li>`;
+                });
+
+                detallesHTML += `</ul>
+                    <button id="btnCerrarVentana" class="btn btn-outline-danger" style="float: right; margin-top: 10px;">Cerrar</button>`;
+
+                // Mostrar la ventana emergente
+                mostrarVentanaEmergente(detallesHTML);
+
+
+                // Agregar evento al botón de cierre
+                document.getElementById("btnCerrarVentana").addEventListener("click", function() {
+                    cerrarVentanaEmergente();
+                });
+
+            } catch (error) {
+                console.error("Error al obtener los detalles de la orden:", error);
+            }
+        });
+
+        function cerrarVentanaEmergente() {
+            // Seleccionar la ventana emergente y eliminarla del DOM
+            const ventanaEmergente = document.getElementById("ventanaEmergente");
+            if (ventanaEmergente) {
+                ventanaEmergente.parentNode.removeChild(ventanaEmergente);
+            }
+        }
+
+        function mostrarVentanaEmergente(contenido) {
+            // Crear la ventana emergente y agregar el contenido
+            const ventanaEmergente = document.createElement("div");
+            ventanaEmergente.id = "ventanaEmergente";
+            ventanaEmergente.innerHTML = contenido;
+        
+            // Aplicar estilos directamente a la ventana emergente
+            ventanaEmergente.style.position = "fixed";
+            ventanaEmergente.style.top = "50%";
+            ventanaEmergente.style.left = "50%";
+            ventanaEmergente.style.transform = "translate(-50%, -50%)";
+            ventanaEmergente.style.backgroundColor = "white"; // Fondo blanco
+            ventanaEmergente.style.padding = "20px";
+            ventanaEmergente.style.borderRadius = "10px"; // Bordes redondeados
+            ventanaEmergente.style.border = "2px solid black"; // Borde negro
+            ventanaEmergente.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)"; // Sombra
+            ventanaEmergente.style.zIndex = "9999";
+            ventanaEmergente.style.maxWidth = "80%";
+            ventanaEmergente.style.overflowY = "auto";
+        
+            // Aplicar estilo específico para la lista de técnicos
+            const listaTecnicos = ventanaEmergente.querySelectorAll('.lista-tecnicos');
+            listaTecnicos.forEach(item => {
+                item.style.color = "black"; // Color negro para los técnicos
+            });
+        
+            // Agregar la ventana emergente al cuerpo del documento
+            document.body.appendChild(ventanaEmergente);
+        }
+        
+        
+        
 
         columnaOpciones.appendChild(btnVerFactura);
-        //columnaOpciones.appendChild(btnEditarOrden);
         columnaOpciones.appendChild(btnEliminarOrden);
-        //columnaOpciones.appendChild(btnDetalleOrden);
+        columnaOpciones.appendChild(btnDetalleOrden);
 
         fila.appendChild(columnaId);
         fila.appendChild(columnaPatente);
@@ -129,6 +231,7 @@ function llenarTablaFor(data){
 
     });
 }
+
 //----------------------------------------------------------------------------------------------------------------------
 // Buscar --------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
@@ -146,4 +249,4 @@ async function BuscarOrden(){
 //----------------------------------------------------------------------------------------------------------------------
 btnBuscarOrden.addEventListener("click", async function(){
     await BuscarOrden();
-})
+});

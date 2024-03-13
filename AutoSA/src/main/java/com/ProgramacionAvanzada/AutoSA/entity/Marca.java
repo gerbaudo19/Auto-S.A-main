@@ -18,15 +18,12 @@ public class Marca {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
     private String nombre;
-    private int impuesto;
+    private int impuesto = 15; // Establecer impuesto en 15%
 
-    //@OneToMany(mappedBy = "marca", cascade = CascadeType.ALL, orphanRemoval = true)
-    //@JsonBackReference
-    //private List<Modelo> modelo;
-
-    public Marca(String nombre, int impuesto){
+    // Constructor con nombre e impuesto
+    public Marca(String nombre, int impuesto) {
         this.nombre = nombre;
         this.impuesto = impuesto;
     }

@@ -28,13 +28,15 @@ export function formatearString(textoEntrada) {
 
 async function setMarca(){
     const nombreNuevaMarca = document.getElementById("nombreNuevaMarca").value;
-    const impuestoNuevaMarca = document.getElementById("impuestoNuevaMarca").value;
-    if(!nombreNuevaMarca.trim() || !impuestoNuevaMarca.trim()){
-        alert("No puede existir campos vacios");
+    // Eliminar la entrada de impuestoNuevaMarca ya que siempre será 15%
+    
+    if(!nombreNuevaMarca.trim()){
+        alert("No puede existir campos vacíos");
     }else{
         var nuevaMarcaData = {
             nombre: formatearString(nombreNuevaMarca),
-            impuesto: impuestoNuevaMarca
+            // Establecer el impuesto en 15%
+            impuesto: 15
         }
         
         await fetch(url + "/create", {

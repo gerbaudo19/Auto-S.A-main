@@ -12,6 +12,7 @@ function llenarTablaFactura(data) {
         const columnaFecha = document.createElement('td');
         const columnaHora = document.createElement('td');
         const columnaSubTotal = document.createElement('td');
+        const columnaTotal = document.createElement('td')
         const columnaOrdenDeTrabajo = document.createElement('td');
         const columnaAcciones = document.createElement('td');
 
@@ -19,17 +20,16 @@ function llenarTablaFactura(data) {
         columnaFecha.textContent = factura.fecha;
         columnaHora.textContent = factura.hora;
         columnaSubTotal.textContent = factura.subTotal;
+        columnaTotal.textContent = factura.total;
         columnaOrdenDeTrabajo.textContent = factura.ordenDeTrabajo.id;
 
         // Botón Ver Factura
         const btnVerFactura = document.createElement('button');
-        btnVerFactura.textContent = "Ver";
+        btnVerFactura.textContent = "Ver Factura";
         btnVerFactura.classList = 'btn btn-outline-primary';
-        btnVerFactura.style.margin = "0px 5px";
-        btnVerFactura.addEventListener("click", function() {
-            // Aquí puedes definir qué hacer al hacer clic en Ver Factura
-            // Por ejemplo, podrías redirigir a una página de detalles de la factura
-            alert("Implementa la lógica para ver la factura aquí");
+        btnVerFactura.style.marginRight = "5px";
+        btnVerFactura.addEventListener('click', function() {
+            mostrarDetallesFactura(factura);
         });
 
         // Agregar botón Ver Factura a la columna de acciones
@@ -40,6 +40,7 @@ function llenarTablaFactura(data) {
         fila.appendChild(columnaFecha);
         fila.appendChild(columnaHora);
         fila.appendChild(columnaSubTotal);
+        fila.appendChild(columnaTotal);
         fila.appendChild(columnaOrdenDeTrabajo);
         fila.appendChild(columnaAcciones);
 
@@ -48,28 +49,55 @@ function llenarTablaFactura(data) {
     });
 }
 
-// Función para realizar la búsqueda de facturas
-async function buscarFacturas() {
-    let filterId = document.getElementById("select-Filtrar").value;
-    let filterValue = "";
-    if (filterId === "1") { // Filtrar por ID de factura
-        filterValue = document.getElementById("input-id-factura").value;
-    } else if (filterId === "2") { // Filtrar por ID de orden
-        filterValue = document.getElementById("input-id-orden").value;
-    }
+function mostrarDetallesFactura(factura) {
+    const modalBodyFactura = document.getElementById("modalBodyFactura");
+    modalBodyFactura.innerHTML = `
+        <div>
+            <h4>Detalles de la Factura - Auto S.A</h4>
+            <p><strong>Fecha:</strong> ${factura.fecha}</p>
+            <p><strong>Hora:</strong> ${factura.hora}</p>
+            <p><strong>Cliente:</strong> ${factura.ordenDeTrabajo.vehiculo.cliente.nombre} ${factura.ordenDeTrabajo.vehiculo.cliente.apellido}</p>
+            <p><strong>Datos del Cliente:</strong></p>
+            <ul>
+                <li><strong>DNI:</strong> ${factura.ordenDeTrabajo.vehiculo.cliente.dni}</li>
+                <li><strong>Teléfono:</strong> ${factura.ordenDeTrabajo.vehiculo.cliente.telefono}</li>
+                <li><strong>Email:</strong> ${factura.ordenDeTrabajo.vehiculo.cliente.email}</li>
+                <li><strong>Domicilio:</strong> ${factura.ordenDeTrabajo.vehiculo.cliente.domicilio}</li>
+            </ul>
+            <p><strong>Vehículo:</strong> ${factura.ordenDeTrabajo.vehiculo.modelo.nombre} (${factura.ordenDeTrabajo.vehiculo.patente})</p>
+            <p><strong>Servicios Realizados:</strong></p>
+            <ul>
+                ${factura.ordenDeTrabajo.detallesOrdenTrabajo.map(detalle => `<li>${detalle.servicio.nombre} - Precio: $${detalle.servicio.precio}</li>`).join('')}
+            </ul>
+            <p><strong>Subtotal:</strong> $${factura.subTotal}</p>
+            <p><strong>Impuesto (15%):</strong> $${(factura.total - factura.subTotal)}</p>
+            <p><strong>Total:</strong> $${factura.total}</p>
+            <p><strong>ID Orden de Trabajo:</strong> ${factura.ordenDeTrabajo.id}</p>
+            <button id="btnImprimirFactura" class="btn btn-outline-success">Imprimir Factura</button>
+        </div>
+    `;
+
+    // Agregar evento al botón de imprimir factura
+    const btnImprimirFactura = document.getElementById("btnImprimirFactura");
+    btnImprimirFactura.addEventListener("click", function() {
+        window.print(); // Acción para imprimir la factura
+    });
+
+    // Mostrar la ventana modal
+    const modal = new bootstrap.Modal(document.getElementById('modalDetallesFactura'));
+    modal.show();
+}
+
+
+// Evento para realizar la búsqueda cuando se presiona el botón
+btnBuscar.addEventListener("click", async function (event) {
+    event.preventDefault(); // Evitar el envío del formulario
 
     try {
         const response = await fetch(urlFactura);
         if (response.ok) {
             const data = await response.json();
-            if (filterValue) {
-                // Filtrar por el valor ingresado en el filtro
-                const filteredData = data.filter(factura => factura.id == filterValue);
-                llenarTablaFactura(filteredData);
-            } else {
-                // Si no se especifica ningún filtro, mostrar todas las facturas
-                llenarTablaFactura(data);
-            }
+            llenarTablaFactura(data);
             tablaFactura.style.display = 'table'; // Mostrar la tabla una vez que se hayan cargado los datos
         } else {
             console.error("Error al obtener las facturas:", response.statusText);
@@ -79,12 +107,6 @@ async function buscarFacturas() {
         console.error("Error al obtener las facturas:", error);
         // Puedes manejar el error aquí
     }
-}
-
-// Evento para realizar la búsqueda cuando se presiona el botón
-btnBuscar.addEventListener("click", function (event) {
-    event.preventDefault(); // Evitar el envío del formulario
-    buscarFacturas();
 });
 
 // Ocultar la tabla al cargar la página

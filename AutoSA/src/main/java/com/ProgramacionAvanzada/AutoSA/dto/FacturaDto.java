@@ -18,6 +18,9 @@ public class FacturaDto {
     private int subTotal;
 
     @NotNull
+    private int total;
+
+    @NotNull
     private OrdenDeTrabajo ordenDeTrabajo;
     
     @NotNull
@@ -25,8 +28,9 @@ public class FacturaDto {
     @NotNull
     private LocalTime hora;
 
-    public FacturaDto(@NotNull int subTotal,@NotNull LocalDate fecha,@NotNull LocalTime hora,@NotNull OrdenDeTrabajo ordenDeTrabajo){
+    public FacturaDto(@NotNull int subTotal, @NotNull int total, @NotNull LocalDate fecha, @NotNull LocalTime hora, @NotNull OrdenDeTrabajo ordenDeTrabajo){
         this.subTotal = subTotal;
+        this.total = total;
         this.fecha = fecha;
         this.hora = hora;
         this.ordenDeTrabajo = ordenDeTrabajo;

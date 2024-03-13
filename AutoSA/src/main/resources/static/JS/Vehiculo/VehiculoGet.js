@@ -63,7 +63,7 @@ async function llenarTablaFor(dataVehiculo){
             await deleteVehiculo(vehiculo.id);
         });
 
-        const botonVer = document.createElement('button');
+        /*const botonVer = document.createElement('button');
         botonVer.textContent = 'Ver';
         botonVer.classList= 'btn btn-outline-success';
         botonVer.style = "margin: 0px 5px;"
@@ -71,9 +71,9 @@ async function llenarTablaFor(dataVehiculo){
         botonVer.setAttribute("data-bs-toggle", "modal");
         botonVer.addEventListener('click',async function () {
             
-        });
+        });*/
 
-        columnaOpciones.appendChild(botonVer);
+        //columnaOpciones.appendChild(botonVer);
         columnaOpciones.appendChild(botonEditar);
         columnaOpciones.appendChild(botonEliminar);
 
@@ -138,16 +138,16 @@ async function llenarTablaIf(dataVehiculo){
                 deleteVehiculo(vehiculo.id);
             });
 
-            const botonVer = document.createElement('button');
+            /*const botonVer = document.createElement('button');
             botonVer.textContent = 'Ver';
             botonVer.classList= 'btn btn-outline-success';
             botonVer.style = "margin: 0px 5px;"
             botonVer.setAttribute("data-bs-target", "#modalEditarVehiculo");
             botonVer.setAttribute("data-bs-toggle", "modal");
             botonVer.addEventListener('click', function () {
-            });
+            });*/
 
-            columnaOpciones.appendChild(botonVer);
+            //columnaOpciones.appendChild(botonVer);
             columnaOpciones.appendChild(botonEditar);
             columnaOpciones.appendChild(botonEliminar);
 

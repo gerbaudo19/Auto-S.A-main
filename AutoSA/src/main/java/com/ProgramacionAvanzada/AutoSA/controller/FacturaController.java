@@ -37,9 +37,11 @@ public class FacturaController {
 
         OrdenDeTrabajo ordenDeTrabajo = facturaDto.getOrdenDeTrabajo();
         int subTotal = facturaService.calcularSubTotal(ordenDeTrabajo);
+        int total = calcularTotal(subTotal);
 
         Factura facturaNueva = new Factura(
             subTotal,
+            total,
             facturaDto.getFecha(),
             facturaDto.getHora(),
             facturaDto.getOrdenDeTrabajo()
@@ -51,6 +53,13 @@ public class FacturaController {
         ordenDeTrabajoService.cambiarEstadoOrdenCuandoFacturada(ordenDeTrabajo.getId());
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private int calcularTotal(int subTotal) {
+        // Calcular el total sumando el 15% de impuesto al subTotal
+        double impuesto = 0.15;
+        double total = (subTotal * (1 + impuesto));
+        return (int) total;
     }
 
 

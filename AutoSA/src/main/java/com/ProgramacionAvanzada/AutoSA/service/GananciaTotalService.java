@@ -19,7 +19,7 @@ public class GananciaTotalService {
         int gananciaTotal = 0;
 
         for (Factura factura : facturas) {
-            gananciaTotal += factura.getSubTotal();
+            gananciaTotal += factura.getTotal();
         }
 
         return gananciaTotal;

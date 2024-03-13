@@ -24,46 +24,39 @@ import com.ProgramacionAvanzada.AutoSA.service.MarcaService;
 @RequestMapping("/marca")
 @CrossOrigin("*")
 public class MarcaController {
-    
+
     @Autowired
     MarcaService marcaService;
 
     @GetMapping("/list")
-    public ResponseEntity<List<Marca>> findAll(){
-
+    public ResponseEntity<List<Marca>> findAll() {
         List<Marca> list = marcaService.findAll();
-
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody MarcaDto marcaDto){
+    public ResponseEntity<?> create(@RequestBody MarcaDto marcaDto) {
         String nombreMarcaNuevo = marcaDto.getNombre();
-        if(marcaDto.getNombre().isBlank() || marcaService.existsByNombre(nombreMarcaNuevo)){
+        if (marcaDto.getNombre().isBlank() || marcaService.existsByNombre(nombreMarcaNuevo)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }else{
-            Marca marcaNuevo = new Marca(
-                marcaDto.getNombre(),
-                marcaDto.getImpuesto()
-                );
+        } else {
+            // Establecer el impuesto en 15%
+            Marca marcaNuevo = new Marca(marcaDto.getNombre(), 15);
             marcaService.save(marcaNuevo);
-
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable /*("id")*/ int id, @RequestBody MarcaDto marcaDto){
-      // String nombreMarcaEditar = marcaDto.getNombre();
-        /*if(!marcaService.existsById(id) || marcaService.existsByNombre(nombreMarcaEditar) ){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }*/
-
-        Marca marca = marcaService.findById(id).get();
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody MarcaDto marcaDto) {
+        Marca marca = marcaService.findById(id).orElse(null);
+        if (marca == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         marca.setNombre(marcaDto.getNombre());
-        marca.setImpuesto(marcaDto.getImpuesto()); 
+        // Establecer el impuesto en 15%
+        marca.setImpuesto(15);
         marcaService.save(marca);
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
