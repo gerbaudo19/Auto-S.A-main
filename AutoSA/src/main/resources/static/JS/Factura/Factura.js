@@ -1,6 +1,6 @@
 const btnBuscar = document.getElementById("btn-buscar");
 const tablaFactura = document.getElementById("tablaFactura");
-const urlFactura = "http://localhost:8080/factura/list";
+const urlFactura = "http://localhost:8080/factura";
 
 // Función para llenar la tabla con las facturas
 function llenarTablaFactura(data) {
@@ -50,10 +50,13 @@ function llenarTablaFactura(data) {
 }
 
 function mostrarDetallesFactura(factura) {
+    const modalTitle = document.querySelector('.modal-title');
+    modalTitle.textContent = `FACTURA N° ${factura.id}`; // Agregar el número de factura al título del modal
+
     const modalBodyFactura = document.getElementById("modalBodyFactura");
     modalBodyFactura.innerHTML = `
         <div>
-            <h4>Detalles de la Factura - Auto S.A</h4>
+            <h5>Detalles de la Factura - Auto S.A</h5>
             <p><strong>Fecha:</strong> ${factura.fecha}</p>
             <p><strong>Hora:</strong> ${factura.hora}</p>
             <p><strong>Cliente:</strong> ${factura.ordenDeTrabajo.vehiculo.cliente.nombre} ${factura.ordenDeTrabajo.vehiculo.cliente.apellido}</p>
@@ -89,25 +92,46 @@ function mostrarDetallesFactura(factura) {
 }
 
 
+
 // Evento para realizar la búsqueda cuando se presiona el botón
 btnBuscar.addEventListener("click", async function (event) {
     event.preventDefault(); // Evitar el envío del formulario
 
     try {
-        const response = await fetch(urlFactura);
-        if (response.ok) {
-            const data = await response.json();
-            llenarTablaFactura(data);
-            tablaFactura.style.display = 'table'; // Mostrar la tabla una vez que se hayan cargado los datos
+        const filtro = document.getElementById("select-Filtrar").value; // Obtener el valor del filtro seleccionado
+        if (filtro === "idFactura") {
+            const filtroId = document.getElementById("input-filtro").value; // Obtener el valor del campo de entrada
+            const response = await fetch(`${urlFactura}/listById/${filtroId}`); // Enviar solicitud al backend con el ID
+            if (response.ok) {
+                const factura = await response.json(); // Obtener la factura correspondiente al ID
+                if (factura) {
+                    llenarTablaFactura([factura]); // Llenar la tabla con la factura encontrada
+                    tablaFactura.style.display = 'table'; // Mostrar la tabla
+                } else {
+                    tablaFactura.style.display = 'none'; // Ocultar la tabla si no se encuentra ninguna factura
+                    console.log("No se encontró ninguna factura con el ID especificado.");
+                }
+            } else {
+                console.error("Error al obtener la factura:", response.statusText);
+                // Puedes manejar el error aquí
+            }
         } else {
-            console.error("Error al obtener las facturas:", response.statusText);
-            // Puedes manejar el error aquí
+            const response = await fetch(`${urlFactura}/list`); // Enviar solicitud al backend para obtener todas las facturas
+            if (response.ok) {
+                const data = await response.json(); // Obtener todas las facturas
+                llenarTablaFactura(data); // Llenar la tabla con todas las facturas
+                tablaFactura.style.display = 'table'; // Mostrar la tabla
+            } else {
+                console.error("Error al obtener las facturas:", response.statusText);
+                // Puedes manejar el error aquí
+            }
         }
     } catch (error) {
         console.error("Error al obtener las facturas:", error);
         // Puedes manejar el error aquí
     }
 });
+
 
 // Ocultar la tabla al cargar la página
 tablaFactura.style.display = 'none';

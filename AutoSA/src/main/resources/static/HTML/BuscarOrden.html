@@ -68,17 +68,12 @@
                           <button  class="btn btn-outline-primary" type="button" id="btn-buscarOrden">Buscar</button>
                       </form>
                   </div>
-                  <div class="col-9">
-                    <form class="d-flex" role="search" id="formBusqueda">
-                        <input class="form-control me-2" id="input-BuscarOrden" type="search" placeholder="Ingrese el dato" aria-label="Search">
-                    </form>
-                </div>
                   <div class="col" style="margin: 0px 15px;">
                     <select class="form-select" id="select-FiltrarBusqueda" aria-label="Default select example" onchange="getInspeccionByEstado()">
                         <option selected>Filtrar</option>
-                        <option value="1">Tecnico</option>
-                        <option value="2">Estado</option>
-                        <option value="3">Pat. Vehiculo</option>
+                        <option value="1">Pendiente</option>
+                        <option value="2">Anulada</option>
+                        <option value="3">Finalizada</option>
                     </select>
                 </div>
               </div>

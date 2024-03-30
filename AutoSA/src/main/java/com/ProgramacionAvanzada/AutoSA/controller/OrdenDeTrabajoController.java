@@ -107,5 +107,13 @@ public class OrdenDeTrabajoController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } 
     }
+
+
+    // Endpoint para obtener órdenes de trabajo por estado
+    @GetMapping("/listByEstado/{estadoId}")
+    public ResponseEntity<List<OrdenDeTrabajo>> findByEstado(@PathVariable int estadoId) {
+        List<OrdenDeTrabajo> ordenes = ordenDeTrabajoService.findByEstadoId(estadoId);
+        return new ResponseEntity<>(ordenes, HttpStatus.OK);
+    }
     
 }

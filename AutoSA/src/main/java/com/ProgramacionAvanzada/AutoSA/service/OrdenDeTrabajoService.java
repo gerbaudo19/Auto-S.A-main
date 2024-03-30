@@ -99,6 +99,11 @@ public class OrdenDeTrabajoService {
     public int countByEstadoId(int estadoId) {
         return ordenDeTrabajoRepository.countByEstadoId(estadoId);
     }
+
+    // Método para obtener órdenes de trabajo por ID de estado
+    public List<OrdenDeTrabajo> findByEstadoId(int estadoId) {
+        return ordenDeTrabajoRepository.findByEstadoId(estadoId);
+    }
 }
 
 

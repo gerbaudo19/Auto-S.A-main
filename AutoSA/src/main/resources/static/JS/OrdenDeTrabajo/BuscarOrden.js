@@ -232,21 +232,39 @@ function llenarTablaFor(data){
     });
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-// Buscar --------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------------
-async function BuscarOrden(){
-    const response = await fetch(urlOrden + "/list");
-    if(!response.ok){
-        console.log("Error al listar todas las ordenes" + response.status + response.statusText);
+// Función para buscar las órdenes de trabajo según el estado seleccionado o mostrar todas si no se selecciona ningún filtro
+async function buscarOrdenPorEstado() {
+    // Obtener el valor del estado seleccionado
+    const estadoSeleccionado = selectFiltrarBusqueda.value;
+    
+    try {
+        let response;
+        // Verificar si se seleccionó un estado o se dejó en "Filtrar"
+        if (estadoSeleccionado !== "Filtrar") {
+            // Realizar la solicitud al backend para obtener las órdenes según el estado seleccionado
+            response = await fetch(`${urlOrden}/listByEstado/${estadoSeleccionado}`);
+        } else {
+            // Si no se seleccionó ningún estado, mostrar todas las órdenes de trabajo
+            response = await fetch(`${urlOrden}/list`);
+        }
+        
+        if (!response.ok) {
+            console.error("Error al obtener las órdenes de trabajo");
+            return;
+        }
+        
+        // Obtener los datos de las órdenes de trabajo
+        const dataOrdenTrabajo = await response.json();
+        
+        // Mostrar las órdenes de trabajo en la tabla
+        llenarTablaFor(dataOrdenTrabajo);
+    } catch (error) {
+        console.error("Error al buscar órdenes de trabajo:", error);
     }
-    const dataOrdenTrabajo = await response.json();
-    llenarTablaFor(dataOrdenTrabajo);
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-// Boton buscar --------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------------
+// Evento para el botón "Buscar"
 btnBuscarOrden.addEventListener("click", async function(){
-    await BuscarOrden();
+    await buscarOrdenPorEstado();
 });
+

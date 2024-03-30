@@ -23,6 +23,7 @@ public interface OrdenDeTrabajoRepository extends JpaRepository<OrdenDeTrabajo, 
     List<OrdenDeTrabajo> findByVehiculo(Vehiculo vehiculo);
     Optional<OrdenDeTrabajo> findFirstByOrderByIdDesc();
     List<OrdenDeTrabajo> findByFechaCreacionBetween(LocalDate fechaInicio, LocalDate fechaFin);
+    List<OrdenDeTrabajo> findByEstadoId(int estadoId);
     
     // Método para encontrar el personal asociado a una orden de trabajo por su ID
     @Query("SELECT o.personalDeTrabajo FROM OrdenDeTrabajo o WHERE o.id = :ordenId")
