@@ -37,7 +37,7 @@ async function llenarTablaFor(dataCliente){
 
         // Botones de ver,  modificar y eliminar
 
-        const botonVer = document.createElement('button');
+        /*const botonVer = document.createElement('button');
         botonVer.textContent = 'Ver';
         botonVer.classList= 'btn btn-outline-success';
         botonVer.style = "margin: 0px 5px;"
@@ -45,7 +45,7 @@ async function llenarTablaFor(dataCliente){
         botonVer.setAttribute("data-bs-toggle", "modal");
         botonVer.addEventListener('click', function () {
             editarTecnicoId = tecnico.id;
-        });
+        });*/
 
         const botonModificar = document.createElement('button');
         botonModificar.textContent = 'Editar';
@@ -68,7 +68,7 @@ async function llenarTablaFor(dataCliente){
             await deleteCliente(cliente.id);
         });
 
-        columnaOpciones.appendChild(botonVer);
+        //columnaOpciones.appendChild(botonVer);
         columnaOpciones.appendChild(botonModificar);
         columnaOpciones.appendChild(botonEliminar);
 
